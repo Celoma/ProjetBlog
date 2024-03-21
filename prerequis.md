@@ -19,7 +19,7 @@ Nom: TechNoLimits
 - Page de chaque auteurs
     Ensemble de ses articles
 
--Page article
+- Page article
     Affichage des commentaires
     Possibilités d'ajouter des articles
 
@@ -28,10 +28,20 @@ Nom: TechNoLimits
 - Page administrateurs
     Tableau de bord
     Pouvoir ajouter un utilisateur
-    Ajouter un Article pour un utilisateur.
-     
-Nécéssite une BDD
+    Ajouter un article pour un utilisateur.
+
+Nécéssite une BDD MongoDB?
 
 Pour les auteurs
-Pour les utilisateurs
 Pour les articles
+
+Utilisation de TailWindCSS et de NextJS
+
+Taches :
+
+Créé la base de données
+Réfléchir au format du stockage des données
+Figma de la charte graphique
+Créé l'interface de connexion et inscription
+Créé la page d'accueil
+Créé la page de création de blog
