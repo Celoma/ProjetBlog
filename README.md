@@ -27,3 +27,4 @@ o Page des stats
 Suggestions :
 Tuto Figma - https://www.youtube.com/watch?v=oBcbcmYfSLk
 Github - https://docs.github.com/fr/get-started/start-your-journey/hello-world
+Clément, Matéo, Florian
