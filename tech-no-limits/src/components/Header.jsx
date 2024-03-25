@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-const Navbar = () => {
+const Header = () => {
   return (
     <div className="bg-custom-purple flex">  
       <div> {/* boutons vers pages de contenus */}
@@ -8,7 +8,7 @@ const Navbar = () => {
         <a href="" className="text-slate-100">ACTUS</a>
         <a href="" className="text-slate-100">CATEGORIES</a>
       </div>
-      <img src="../images/logo1.png" alt="test" />
+      <img src="images/logo1.png" alt="Logo" />
       <div> {/* boutons vers pages de log-in sign-in*/}
         <a href="" className="text-slate-100">Login</a>
         <a href="" className="text-slate-100">Sign up</a>
@@ -17,4 +17,4 @@ const Navbar = () => {
   )
 }
 
-export default Navbar;
+export default Header;
