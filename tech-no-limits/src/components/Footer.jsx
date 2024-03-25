@@ -1,18 +1,13 @@
 const Footer = () => {
     return (
-        <>
-            <hr>
-                <div className="footer-container">
-                    <div className="social-icons">
+                    <div>
                         <a 
                         href="https://twitter.com"
                         aria-label="Twitter"
                         target="_blank">
+                            Twitter
                         </a>
                     </div>
-                </div>
-            </hr>
-        </>
     )
 }
 
