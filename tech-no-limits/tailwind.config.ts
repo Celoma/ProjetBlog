@@ -14,7 +14,8 @@ const config: Config = {
       colors: {
         "custom-purple": "#231123",
         "custom-orange": "#FFC482",
-        "custom-brown": "#A15E49"
+        "custom-brown": "#A15E49",
+        "custom-gray": "#ECECEC",
       },
       height: {
         "footer": "435px",
