@@ -9,11 +9,15 @@ const config: Config = {
   theme: {
     extend: {
       backgroundColor: {
-        gray: "#CCCCCC", 
+        gray: "#CCCCCC"
       },
       colors: {
-        "custom-purple": "#231123", 
+        "custom-purple": "#231123"
       },
+      height: {
+        "footer": "435px",
+        "15": "60px",
+      }
     },
   },
   plugins: [],

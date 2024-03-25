@@ -1,13 +1,8 @@
 const Footer = () => {
     return (
-                    <div>
-                        <a 
-                        href="https://twitter.com"
-                        aria-label="Twitter"
-                        target="_blank">
-                            Twitter
-                        </a>
-                    </div>
+        <div className="h-footer bg-red-700">
+            <img src="images/logo1.png" alt="Logo de l'entreprise" className="h-16"/>
+        </div>
     )
 }
 
