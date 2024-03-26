@@ -1,16 +1,13 @@
-
-
-
 const Header = () => {
 
   return (
-    <div className="bg-custom-purple flex">  
+    <div className="bg-custom-purple flex items-center justify-between h-15 sticky">  
       <div> {/* boutons vers pages de contenus */}
         <a href="" className="text-slate-100 mr-2 ml-5 font-semibold hover:text-gray-400">ACCUEIL</a>
         <a href="" className="text-slate-100 mx-2 font-semibold hover:text-gray-400">ACTUS</a>
         <a href="" className="text-slate-100 mx-2 font-semibold hover:text-gray-400">CATEGORIES</a> 
       </div>
-      <img src="images/logo1.png" alt="Logo" />
+      <img src="images/logo2.png" alt="Logo" className="h-15 w-auto absolute left-2/4 -translate-x-2/4"/>
       <div> {/* boutons vers pages de log-in sign-in*/}
         <button className="text-slate-100 mr-2 font-semibold hover:text-gray-400">Login</button>
 
