@@ -54,7 +54,7 @@ const Header = () => {
           <a href="" className="text-slate-100 mx-2 font-semibold hover:text-gray-400">ACTUS</a>
           <a href="" className="text-slate-100 mx-2 font-semibold hover:text-gray-400">CATEGORIES</a> 
         </div>
-        <img src="images/logo2.png" alt="Logo" className="h-15 w-auto absolute left-2/4 -translate-x-2/4"/>
+        <img src="&/images/logo2.png" alt="Logo" className="h-15 w-auto absolute left-2/4 -translate-x-2/4"/>
         <div> {/* boutons vers pages de log-in sign-in*/}
           <button onClick={loginClick} className="text-slate-100 mr-2 font-semibold hover:text-gray-400">Connexion</button>
 
@@ -67,7 +67,7 @@ const Header = () => {
         </div>
       </div>
       <div id='signin' className='hidden backdrop-filter backdrop-blur-md absolute w-full h-full z-10 top-0'>
-        <div className="border-2 flex items-center justify-between text-white bg-custom-purple w-auto absolute left-2/4 -translate-x-2/4 top-2/4 -translate-y-2/4 rounded-md">
+        <div className="p-10 border-2 flex items-center justify-between text-white bg-custom-purple w-auto absolute left-2/4 -translate-x-2/4 top-2/4 -translate-y-2/4 rounded-2xl overflow-hidden">
           <section className='text-center'>
             <h1 className='text-3xl mt-4'>Inscription</h1>
             <form action="">
@@ -141,7 +141,7 @@ const Header = () => {
         </div>
       </div>
       <div id='login' className='hidden backdrop-filter backdrop-blur-md absolute w-full h-full z-10 top-0'>
-        <div className="border-2 flex items-center justify-between text-white bg-custom-purple h-auto w-auto absolute left-2/4 -translate-x-2/4 top-2/4 -translate-y-2/4 rounded-md">
+        <div className="rounded-2xl overflow-hidden p-10 border-2 flex items-center justify-between text-white bg-custom-purple h-auto w-auto absolute left-2/4 -translate-x-2/4 top-2/4 -translate-y-2/4 rounded-md">
           <section className='text-center'>
             <h1 className='text-3xl mt-4'>Bonjour !</h1>
             <form action="">

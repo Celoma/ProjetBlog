@@ -10,7 +10,7 @@ export default async function home() {
   return (
     <main>
       <p id="test">cocou</p>
-      <div className="text-center"><ul>{allUsers.map((User) => (<li>{User.password} {User.permission}</li>))}</ul></div>
+      <div className="text-center"><ul>{allUsers.map((User) => (<li>{User.username} {User.permission}</li>))}</ul></div>
     </main>
   );
 }
