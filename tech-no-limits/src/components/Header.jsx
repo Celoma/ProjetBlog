@@ -1,5 +1,4 @@
 "use client"
-
 import React, { useState } from 'react';
 
 const Header = () => {
@@ -49,7 +48,7 @@ const Header = () => {
  
   return (
     <header className='select-none'>
-      <div className="bg-custom-purple flex items-center justify-between h-15 sticky z-2">  
+      <div className="bg-custom-purple flex items-center justify-between h-15">  
         <div> {/* boutons vers pages de contenus */}
           <a href="" className="text-slate-100 mr-2 ml-5 font-semibold hover:text-gray-400">ACCUEIL</a>
           <a href="" className="text-slate-100 mx-2 font-semibold hover:text-gray-400">ACTUS</a>
@@ -68,7 +67,7 @@ const Header = () => {
         </div>
       </div>
       <div id='signin' className='hidden backdrop-filter backdrop-blur-md absolute w-full h-full z-10 top-0'>
-        <div className="border-2 flex items-center justify-between text-white bg-custom-purple h-auto w-auto absolute left-2/4 -translate-x-2/4 top-2/4 -translate-y-2/4 rounded-md">
+        <div className="border-2 flex items-center justify-between text-white bg-custom-purple w-auto absolute left-2/4 -translate-x-2/4 top-2/4 -translate-y-2/4 rounded-md">
           <section className='text-center'>
             <h1 className='text-3xl mt-4'>Inscription</h1>
             <form action="">
@@ -134,8 +133,9 @@ const Header = () => {
             </form>
             <p className='cursor-default mt-6 mx-4 mb-4'>Tu as déjà un compte ? <em onClick={loginClick} className='cursor-pointer text-custom-orange underline'>Connecte-toi</em></p>
           </section>
-          <section className='px-10'>
+          <section className='z-2'>
             <button onClick={signinClose} className="absolute top-0 right-0 btn bg-custom-red rounded mr-2 mt-1 p-1 text-white font-semibold hover:bg-red-700">X</button>
+            <img className='absolute end-0 bottom-0 h-5/6 w-2/6 -z-10' src='images/connexionRectangle.png' alt="decoration"/>
             <img src="images/mecInscription.png" alt="photoInscription" className='h-64'/>
           </section>
         </div>
@@ -164,7 +164,9 @@ const Header = () => {
           </section>
           <section className='px-10'>
             <button onClick={loginClose} className="absolute top-0 right-0 btn bg-custom-red rounded mr-2 mt-1 p-1 text-white font-semibold hover:bg-red-700">X</button>
-            <img src="images/mecConnexion.png" alt="photoInscription" className='h-64'/>
+            <img src="images/mecConnexion.png" alt="photoConnexion" className='h-64'/>
+            <img className='absolute end-0 bottom-0 h-5/6 w-2/6 -z-10' src='images/connexionRectangle.png' alt="decoration"/>
+
           </section>
         </div>
       </div>
