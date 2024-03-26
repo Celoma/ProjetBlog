@@ -1,6 +1,5 @@
 const Footer = () => {
     return (
-<<<<<<< Updated upstream
         <footer className="h-footer bg-custom-purple ">
             <div className="flex place-content-between">
                 <img src="images/logo1.png" alt="Logo de l'entreprise" className="mt-4 h-90"/>
@@ -53,32 +52,6 @@ const Footer = () => {
             <hr className="mx-36"/>
             <p className="text-center text-custom-orange mt-4">Designed by Clément, Matéo, Florian & Swathi</p>
         </footer>
-=======
-        <div className="h-footer bg-custom-purple">
-            <img src="images/logo1.png" alt="Logo de l'entreprise" className="h-90"/>
-            <div>
-                <h4>Blogs</h4>
-                <ul>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                </ul>
-            </div>
-            <div>
-                <h4></h4>
-                <ul>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                </ul>
-            </div>
-            <div>
-            </div>
-        </div>
->>>>>>> Stashed changes
     )
 }
 
