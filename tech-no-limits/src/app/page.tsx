@@ -9,7 +9,7 @@ export default async function home() {
     include : { posts:false }})
   return (
     <main>
-      <p id="test">Merge 2 test</p>
+      <p id="test">cocou</p>
       <div className="text-center"><ul>{allUsers.map((User) => (<li>{User.password} {User.permission}</li>))}</ul></div>
     </main>
   );
