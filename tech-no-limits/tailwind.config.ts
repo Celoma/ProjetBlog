@@ -20,7 +20,11 @@ const config: Config = {
       height: {
         "footer": "435px",
         "15": "60px",
+<<<<<<< Updated upstream
         "90": "350px",
+=======
+        "90": "350px"
+>>>>>>> Stashed changes
       }
     },
   },
