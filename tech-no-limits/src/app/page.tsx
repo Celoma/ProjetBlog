@@ -1,11 +1,21 @@
-import Image from "next/image";
 
+
+"use client"
 
 export default function Home() {
+
+
+  const handleClick = () => {
+    const testElement = document.getElementById("test");
+      if (testElement) {
+        testElement.textContent = "coucou";
+      }
+  };
+
   return (
     <main>
-      <p>Matéo</p>
-      <a href="./page2.tsx">Test</a>
+      <p id="test">cocou</p>
+      <a href="" onClick={handleClick}>Test</a>
     </main>
-  );
+  );  
 }

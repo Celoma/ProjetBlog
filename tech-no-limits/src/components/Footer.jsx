@@ -29,7 +29,7 @@ const Footer = () => {
                         <button type="submit" className="w-36 btn relative inline-flex items-center justify-start overflow-hidden transition-all bg-custom-orange rounded-r-lg hover:bg-custom-orange group p-2">
                             {/* purple box */}
                             <span className="w-0 h-0 rounded bg-custom-brown absolute top-0 left-0 ease-out duration-500 transition-all group-hover:w-full group-hover:h-full -z-1"></span>
-                            <span className="w-full text-black transition-colors duration-300 ease-in-out group-hover:text-white z-10">
+                            <span className="w-full text-black transition-colors duration-300 ease-in-out group-hover:text-white z-2">
                             Abonne-toi
                             </span>
                         </button>
