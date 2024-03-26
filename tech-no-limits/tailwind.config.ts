@@ -21,7 +21,7 @@ const config: Config = {
         "footer": "435px",
         "15": "60px",
         "90": "350px",
-      }
+      },
     },
   },
   plugins: [],

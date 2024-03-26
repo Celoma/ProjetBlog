@@ -1,33 +1,37 @@
-import Image from "next/image";
+"use client"
+import {prisma} from "@/db/prisma";
+import { ReactElement, JSXElementConstructor, ReactNode, ReactPortal } from "react";
 
-if (process.env.NODE_ENV !== 'production') {
-      global.prisma = prisma;
-    }
 
-    import {prisma} from "@/src/db/prisma";
-    export default async function home() {
-      await prisma.user.create({
-      data:{
-        sex: 0,
-        password: "admin",
-        permission: "admin",
-        username : "admin",
-        email : "admin@admin.com",
-            posts:{
-              create:{                               
-                title:"My First Post",
-                body:"Lots of interesting stuff",
-                slug:"my-first-post"	    },},},})
-    const allUsers = await prisma.user.findMany({
-      include : { post:true }})
-    return(div><ul>{allUsers.map(user) => (li>{user.name}</li>)}</ul></div>)
 
-    
-export default function Home() {
+export default async function home() {
+
+
+  const handleClick = () => {
+    const testElement = document.getElementById("test");
+      if (testElement) {
+        testElement.textContent = "coucou";
+      }
+  };
+  await prisma.user.create({
+    data:{
+      sex: 0,
+      password: "admin",
+      permission: "admin",
+      username : "admin",
+      email : "admin@admin.com",
+          posts:{
+            create:{
+              title:"My First Post",
+              body:"Lots of interesting stuff",
+              slug:"my-first-post"	    },},},})
+  const allUsers = await prisma.User.findMany({
+    include : { post:true }})
   return (
     <main>
-      <p>Matéo</p>
-      <a href="./page2.tsx">Test</a>
+      <p id="test">cocou</p>
+      <a href="" onClick={handleClick}>Test</a>
+      <div className="text-center"><ul>{allUsers.map((User: { username: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | null | undefined; }) => (<li>{User.username}</li>))}</ul></div>
     </main>
   );
 }
