@@ -10,7 +10,7 @@ const createUser = async (username, email, sex, password) => {
       sex,
       password,
     });
-    // Ici dans le console.log on affiche tous les champs de l'utilisateur qui vient d'être créé
+    // Ici dans le console.log on affiche tous les champs de l'utilisateur qui vient d'être créé !
     console.log(response.data);
 };
 
