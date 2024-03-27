@@ -11,6 +11,7 @@ export default async function home() {
     <main>
       <p id="test">cocou</p>
       <div className="text-center"><ul>{allUsers.map((User) => (<li>{User.username} {User.permission}</li>))}</ul></div>
+      <a href="../pages/createblog">Créer un blog</a>
     </main>
   );
 }
