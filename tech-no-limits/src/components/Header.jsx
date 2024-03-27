@@ -36,6 +36,7 @@ const login = async (email, password) => {
 
 export { createUser };
 
+
 const Header = () => {
 
   let [selectedOption, setSelectedOption] = useState(null);
@@ -47,8 +48,10 @@ const Header = () => {
   function loginClick(event) {
     const loginElement = document.getElementById("login")
     const signinElement = document.getElementById("signin");
+    document.documentElement.style.overflow = 'hidden';
     if (signinElement) {
-      signinElement.classList.add("hidden");
+      document.documentElement.style.overflow = 'hidden';
+        signinElement.classList.add("hidden");
     }
     if (loginElement) {
       loginElement.classList.remove("hidden");
@@ -59,14 +62,17 @@ const Header = () => {
     const loginElement = document.getElementById("login");
     if (loginElement) {
       loginElement.classList.add("hidden");
+      window.removeEventListener('scroll', noScroll);
     }
   }
 
   function signinClick(event) {
     const loginElement = document.getElementById("login")
     const signinElement = document.getElementById("signin");
+    document.documentElement.style.overflow = 'hidden';
     if (loginElement) {
       loginElement.classList.add("hidden");
+      document.documentElement.style.overflow = 'hidden';
     }
     if (signinElement) {
       signinElement.classList.remove("hidden");
@@ -77,6 +83,7 @@ const Header = () => {
     const signinElement = document.getElementById("signin");
     if (signinElement) {
       signinElement.classList.add("hidden");
+      window.removeEventListener('scroll', noScroll);
     }
   }
 
@@ -124,7 +131,7 @@ function escapeKey(event) {
     if (event.keyCode == 27) {
         document.getElementById('signin').classList.add("hidden");
         document.getElementById('login').classList.add("hidden");
-    }
+        document.documentElement.style.overflow = 'visible';    }
 }
 
 function closeElements(event) {
@@ -133,7 +140,7 @@ function closeElements(event) {
     if (event.target === signinElement || event.target === loginElement) {
         signinElement.classList.add("hidden");
         loginElement.classList.add("hidden");
-    }
+        document.documentElement.style.overflow = 'visible';    }
 }
 
 function initEscape() {
@@ -164,7 +171,7 @@ addEvent(window, 'load', initEscape);
             </button>
         </div>
       </div>
-      <div id='signin' className='hidden backdrop-filter backdrop-blur-md absolute w-full h-full z-10 top-0'>
+      <div id='signin' className='hidden backdrop-filter backdrop-blur-md fixed w-full h-full z-10 top-0'>
         <div className="p-10 border-2 flex items-center justify-between text-white bg-custom-purple w-auto absolute left-2/4 -translate-x-2/4 top-2/4 -translate-y-2/4 rounded-2xl overflow-hidden">
           <section className='text-center'>
             <h1 className='text-3xl mt-4'>Inscription</h1>
@@ -239,7 +246,7 @@ addEvent(window, 'load', initEscape);
         </div>
       </div>
       <div id='login' className='hidden backdrop-filter backdrop-blur-md absolute w-full h-full z-10 top-0'>
-        <div className="rounded-2xl overflow-hidden p-10 border-2 flex items-center justify-between text-white bg-custom-purple h-auto w-auto absolute left-2/4 -translate-x-2/4 top-2/4 -translate-y-2/4 rounded-md">
+        <div className="rounded-2xl overflow-hidden p-10 border-2 flex items-center justify-between text-white bg-custom-purple h-auto w-auto absolute left-2/4 -translate-x-2/4 top-2/4 -translate-y-2/4">
           <section className='text-center'>
             <h1 className='text-3xl mt-4'>Bonjour !</h1>
             <form action="" onSubmit={handleLogin}>

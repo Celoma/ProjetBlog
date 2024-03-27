@@ -28,10 +28,8 @@ const Footer = () => {
                         <input type="email" id="email" className="bg-custom-gray border border-gray-300 text-custom-purple text-sm rounded-l-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Rentre ton email" required />
                         <button type="submit" className="w-40 btn relative inline-flex font-semibold items-center justify-start overflow-hidden transition-all bg-custom-orange rounded-r-lg hover:bg-custom-orange group p-2">
                             {/* purple box */}
-                            <span className="w-0 h-0 rounded bg-custom-brown absolute top-0 left-0 ease-out duration-500 transition-all group-hover:w-full group-hover:h-full -z-1"></span>
-                            <span className="w-full text-black transition-colors duration-300 ease-in-out group-hover:text-white z-2">
-                            Abonne-toi
-                            </span>
+                            <span className="w-0 h-0 rounded-r-lg bg-custom-brown absolute top-0 left-0 ease-out duration-500 transition-all group-hover:w-full group-hover:h-full -z-1"></span>
+                            <span className="w-full text-black transition-colors duration-300 ease-in-out group-hover:text-slate-100 z-10">Abonne-toi</span>
                         </button>
                     </form>
                     <h4 className="text-lg font-medium text-custom-orange mb-4 mt-8">Rejoins nos réseaux :</h4>
