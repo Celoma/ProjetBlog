@@ -1,4 +1,4 @@
-import {prisma} from "../db/prisma"
+import {prisma} from "@/db/prisma"
 import { ReactElement, JSXElementConstructor, ReactNode, ReactPortal } from "react";
 
 
