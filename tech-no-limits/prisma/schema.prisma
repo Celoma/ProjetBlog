@@ -28,8 +28,8 @@ id 	String @id @default(auto()) @map("_id") @db.ObjectId
 email 	String @unique
 username 	String?
 sex 	Boolean?
-password String?
-permission String?
+password String
+permission String
 posts 	Post[]
 }
 
