@@ -15,14 +15,24 @@ const createUser = async (username, email, sex, password) => {
 };
 
 const login = async (email, password) => {
-
-  const response = await axios.post('/api/users/login', {
-    email,
-    password,
-  });
-  // Ici dans le console.log on affiche tous les champs de l'utilisateur où l'on se connecte
-  console.log(response.data);
+  try {
+    const response = await axios.post('/api/users/login', {
+      email,
+      password,
+    });
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      throw new Error(error.response.data.message || 'Erreur lors de la connexion');
+    } else if (error.request) {
+      throw new Error('Pas de réponse du serveur, veuillez réessayer plus tard');
+    } else {
+      throw new Error('Une erreur s\'est produite, veuillez réessayer plus tard');
+    }
+  }
 };
+
 
 export { createUser };
 
@@ -144,14 +154,14 @@ addEvent(window, 'load', initEscape);
           <a href="/pages/categories" className="text-slate-100 mx-2 font-semibold hover:text-gray-400">CATEGORIES</a> 
         </div>
         <img src="/images/logo2.png" alt="Logo" className="h-15 w-auto absolute left-2/4 -translate-x-2/4"/>
-        <div> {/* boutons vers pages de log-in sign-in*/}
-          <button onClick={loginClick} className="text-slate-100 mr-2 font-semibold hover:text-gray-400">Connexion</button>
-          <button onClick={signinClick} className="btn relative inline-flex items-center justify-start overflow-hidden transition-all bg-custom-orange rounded hover:bg-custom-orange group mr-5 ml-2 p-2 font-semibold">
-            <span className="w-0 h-0 rounded bg-custom-brown absolute top-0 left-0 ease-out duration-500 transition-all group-hover:w-full group-hover:h-full -z-1"></span>
-            <span className="w-full text-black transition-colors duration-300 ease-in-out group-hover:text-white z-10">
-              Inscription
-            </span>
-          </button>
+        <div>
+            <button onClick={loginClick} className="text-slate-100 mr-2 font-semibold hover:text-gray-400">Connexion</button>
+            <button onClick={signinClick} className="btn relative inline-flex items-center justify-start overflow-hidden transition-all bg-custom-orange rounded hover:bg-custom-orange group mr-5 ml-2 p-2 font-semibold">
+              <span className="w-0 h-0 rounded bg-custom-brown absolute top-0 left-0 ease-out duration-500 transition-all group-hover:w-full group-hover:h-full -z-1"></span>
+              <span className="w-full text-black transition-colors duration-300 ease-in-out group-hover:text-white z-10">
+                Inscription
+              </span>
+            </button>
         </div>
       </div>
       <div id='signin' className='hidden backdrop-filter backdrop-blur-md absolute w-full h-full z-10 top-0'>
@@ -223,8 +233,8 @@ addEvent(window, 'load', initEscape);
           </section>
           <section className='z-2'>
             <button onClick={signinClose} className="absolute top-0 right-0 btn bg-custom-red rounded mr-2 mt-1 p-1 text-white font-semibold hover:bg-red-700">X</button>
-            <img className='absolute end-0 bottom-0 h-5/6 w-2/6 -z-10' src='images/connexionRectangle.png' alt="decoration"/>
-            <img src="images/mecInscription.png" alt="photoInscription" className='h-64'/>
+            <img className='absolute end-0 bottom-0 h-5/6 w-2/6 -z-10' src='/images/connexionRectangle.png' alt="decoration"/>
+            <img src="/images/mecInscription.png" alt="photoInscription" className='h-64'/>
           </section>
         </div>
       </div>
@@ -252,8 +262,8 @@ addEvent(window, 'load', initEscape);
           </section>
           <section className='px-10'>
             <button onClick={loginClose} className="absolute top-0 right-0 btn bg-custom-red rounded mr-2 mt-1 p-1 text-white font-semibold hover:bg-red-700">X</button>
-            <img src="images/mecConnexion.png" alt="photoConnexion" className='h-64'/>
-            <img className='absolute end-0 bottom-0 h-5/6 w-2/6 -z-10' src='images/connexionRectangle.png' alt="decoration"/>
+            <img src="/images/mecConnexion.png" alt="photoConnexion" className='h-64'/>
+            <img className='absolute end-0 bottom-0 h-5/6 w-2/6 -z-10' src='/images/connexionRectangle.png' alt="decoration"/>
 
           </section>
         </div>
