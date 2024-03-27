@@ -12,7 +12,7 @@ export default async function home() {
       <p id="test">cocou</p>
       <div className="text-center"><ul>{allUsers.map((User) => (<li>{User.username} {User.permission}</li>))}</ul></div>
       <a href="../pages/createblog">Créer un blog</a>
-      <div className='bg-custom-gray w-full h-full'>
+        <div className='bg-custom-gray w-full h-full'>
         <div className='flex justify-between items-center'>
           <div className='flex flex-col ml-14 pt-28'>
             <h1 className='text-custom-purple font-semibold text-6xl text-center max-w-[500px]'>Tu as envie de partager une actualité ?</h1>

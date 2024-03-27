@@ -31,6 +31,7 @@ sex 	Boolean?
 password String
 permission String
 posts 	Post[]
+reseaux String[]
 }
 
 model Comment {
