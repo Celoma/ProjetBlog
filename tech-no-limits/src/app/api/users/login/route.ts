@@ -3,14 +3,15 @@ import {prisma} from "@/db/prisma"
 
 export  async function POST(request: Request) {
     const data = await request.json();
+    console.log(data)
     try {
-        const user = await prisma.user.findFirst({
+        const user = await prisma.user.findMany({
             where: {
                 email: data.email,
             },
         });
-        if (user && data.password === user.password) {
-            return NextResponse.json(user)
+        if (user && data.password === user[0].password) {
+            return NextResponse.json(user[0])
         } else {
             return NextResponse.json({ message: 'Email ou mot de passe incorrect' });
         }

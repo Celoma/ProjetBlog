@@ -14,6 +14,16 @@ const createUser = async (username, email, sex, password) => {
     console.log(response.data);
 };
 
+const login = async (email, password) => {
+
+  const response = await axios.post('/api/users/login', {
+    email,
+    password,
+  });
+  // Ici dans le console.log on affiche tous les champs de l'utilisateur où l'on se connecte
+  console.log(response.data);
+};
+
 export { createUser };
 
 const Header = () => {
@@ -60,7 +70,7 @@ const Header = () => {
     }
   }
 
-  const handleSubmit = async (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
     const username = document.getElementById("username").value;
     const email = document.getElementById("mail").value;
@@ -81,18 +91,61 @@ const Header = () => {
     }
   };
 
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    const email = document.getElementById("usernamelog").value;
+    const password = document.getElementById("passwordlog").value;
+    try {
+      const newUser = await login(email, password);
+      document.getElementById("usernamelog").value = "";
+      document.getElementById("passwordlog").value = "";
+    } catch (error) {
+      console.error('Erreur lors de la connexion :', error);
+    }
+  };
+  function addEvent(element, type, listener) {
+    if (element.addEventListener)
+        element.addEventListener(type, listener, false);
+    else if (element.attachEvent)
+        element.attachEvent('on' + type, function () { return listener.apply(element, arguments); });
+}
+
+function escapeKey(event) {
+    if (event.keyCode == 27) {
+        document.getElementById('signin').classList.add("hidden");
+        document.getElementById('login').classList.add("hidden");
+    }
+}
+
+function closeElements(event) {
+    const signinElement = document.getElementById('signin');
+    const loginElement = document.getElementById('login');
+    if (event.target === signinElement || event.target === loginElement) {
+        signinElement.classList.add("hidden");
+        loginElement.classList.add("hidden");
+    }
+}
+
+function initEscape() {
+    addEvent(document, 'keydown', escapeKey);
+    addEvent(document, 'click', closeElements);
+}
+
+addEvent(window, 'load', initEscape);
+
+
+
   return (
     <header className='select-none'>
-      <div className="bg-custom-purple flex items-center justify-between h-15">  
+      <div className="bg-custom-purple flex items-center justify-between h-15">
         <div> {/* boutons vers pages de contenus */}
-          <a href="../" className="text-slate-100 mr-2 ml-5 font-semibold hover:text-gray-400">ACCUEIL</a>
+          <a href="/" className="text-slate-100 mr-2 ml-5 font-semibold hover:text-gray-400">ACCUEIL</a>
           <a href="" className="text-slate-100 mx-2 font-semibold hover:text-gray-400">ACTUS</a>
-          <a href="./pages/categories" className="text-slate-100 mx-2 font-semibold hover:text-gray-400">CATEGORIES</a> 
+          <a href="/pages/categories" className="text-slate-100 mx-2 font-semibold hover:text-gray-400">CATEGORIES</a> 
         </div>
-        <img src="&/images/logo2.png" alt="Logo" className="h-15 w-auto absolute left-2/4 -translate-x-2/4"/>
+        <img src="/images/logo2.png" alt="Logo" className="h-15 w-auto absolute left-2/4 -translate-x-2/4"/>
         <div> {/* boutons vers pages de log-in sign-in*/}
           <button onClick={loginClick} className="text-slate-100 mr-2 font-semibold hover:text-gray-400">Connexion</button>
-
           <button onClick={signinClick} className="btn relative inline-flex items-center justify-start overflow-hidden transition-all bg-custom-orange rounded hover:bg-custom-orange group mr-5 ml-2 p-2 font-semibold">
             <span className="w-0 h-0 rounded bg-custom-brown absolute top-0 left-0 ease-out duration-500 transition-all group-hover:w-full group-hover:h-full -z-1"></span>
             <span className="w-full text-black transition-colors duration-300 ease-in-out group-hover:text-white z-10">
@@ -105,7 +158,7 @@ const Header = () => {
         <div className="p-10 border-2 flex items-center justify-between text-white bg-custom-purple w-auto absolute left-2/4 -translate-x-2/4 top-2/4 -translate-y-2/4 rounded-2xl overflow-hidden">
           <section className='text-center'>
             <h1 className='text-3xl mt-4'>Inscription</h1>
-            <form action="" onSubmit={handleSubmit}>
+            <form action="" onSubmit={handleRegister}>
               <div className="w-64 relative group cursor-text mt-6 ml-4">
                 <input type="text" id="username" required className="w-full h-10 px-4 text-sm peer bg-custom-purple outline-none border-b-2 border-custom-orange" />
                 <label htmlFor="username" className="cursor-text transform transition-all absolute top-0 left-0 h-full flex items-center pl-2 text-sm group-focus-within:text-xs peer-valid:text-xs group-focus-within:h-1/2 peer-valid:h-1/2 group-focus-within:-translate-y-full peer-valid:-translate-y-full group-focus-within:pl-0 peer-valid:pl-0">Nom d'utilisateur</label>
@@ -179,10 +232,10 @@ const Header = () => {
         <div className="rounded-2xl overflow-hidden p-10 border-2 flex items-center justify-between text-white bg-custom-purple h-auto w-auto absolute left-2/4 -translate-x-2/4 top-2/4 -translate-y-2/4 rounded-md">
           <section className='text-center'>
             <h1 className='text-3xl mt-4'>Bonjour !</h1>
-            <form action="">
+            <form action="" onSubmit={handleLogin}>
               <div className="w-64 relative group cursor-text mt-6 ml-4">
                 <input type="text" id="usernamelog" required className="w-full h-10 px-4 text-sm peer bg-custom-purple outline-none border-b-2 border-custom-orange" />
-                <label htmlFor="usernamelog" className="cursor-text transform transition-all absolute top-0 left-0 h-full flex items-center pl-2 text-sm group-focus-within:text-xs peer-valid:text-xs group-focus-within:h-1/2 peer-valid:h-1/2 group-focus-within:-translate-y-full peer-valid:-translate-y-full group-focus-within:pl-0 peer-valid:pl-0">Nom d'utilisateur</label>
+                <label htmlFor="mail" className="cursor-text transform transition-all absolute top-0 left-0 h-full flex items-center pl-2 text-sm group-focus-within:text-xs peer-valid:text-xs group-focus-within:h-1/2 peer-valid:h-1/2 group-focus-within:-translate-y-full peer-valid:-translate-y-full group-focus-within:pl-0 peer-valid:pl-0">E-mail</label>
               </div>
               <div className="w-64 relative group cursor-text mt-6 ml-4">
                 <input type="password" id="passwordlog" required className="w-full h-10 px-4 text-sm peer bg-custom-purple outline-none border-b-2 border-custom-orange" />
