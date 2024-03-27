@@ -1,20 +1,20 @@
 "use client"
-  import React, { useState } from 'react';
-  import axios from 'axios';
+import React, { useState } from 'react';
+import axios from 'axios';
 
-  const createUser = async (username, email, sex, password) => {
-  
-      const response = await axios.post('/api/users/register', {
-        username,
-        email,
-        sex,
-        password,
-      });
-      // Ici dans le console.log on affiche tous les champs de l'utilisateur qui vient d'être créé !
-      console.log(response.data);
-  };
-  
-  export { createUser };
+const createUser = async (username, email, sex, password) => {
+
+    const response = await axios.post('/api/users/register', {
+      username,
+      email,
+      sex,
+      password,
+    });
+    // Ici dans le console.log on affiche tous les champs de l'utilisateur qui vient d'être créé
+    console.log(response.data);
+};
+
+export { createUser };
 
 const Header = () => {
 
@@ -22,7 +22,6 @@ const Header = () => {
 
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
-    console.log("test")
   };
 
   function loginClick(event) {
@@ -53,22 +52,44 @@ const Header = () => {
       signinElement.classList.remove("hidden");
     }
   }
+
   function signinClose(event) {
     const signinElement = document.getElementById("signin");
     if (signinElement) {
       signinElement.classList.add("hidden");
     }
   }
- 
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const username = document.getElementById("username").value;
+    const email = document.getElementById("mail").value;
+    const password = document.getElementById("password").value;
+    const confirmPassword = document.getElementById("confirm-password").value;
+    if (password !== confirmPassword) {
+      return;
+    }
+    try {
+      const newUser = await createUser(username, email, selectedOption, password);
+      document.getElementById("username").value = "";
+      document.getElementById("mail").value = "";
+      document.getElementById("password").value = "";
+      document.getElementById("confirm-password").value = "";
+      selectedOption = null;
+    } catch (error) {
+      console.error('Erreur lors de la création de l\'utilisateur :', error);
+    }
+  };
+
   return (
     <header className='select-none'>
       <div className="bg-custom-purple flex items-center justify-between h-15">  
         <div> {/* boutons vers pages de contenus */}
           <a href="../" className="text-slate-100 mr-2 ml-5 font-semibold hover:text-gray-400">ACCUEIL</a>
           <a href="" className="text-slate-100 mx-2 font-semibold hover:text-gray-400">ACTUS</a>
-          <a href="../pages/categories" className="text-slate-100 mx-2 font-semibold hover:text-gray-400">CATEGORIES</a> 
+          <a href="./pages/categories" className="text-slate-100 mx-2 font-semibold hover:text-gray-400">CATEGORIES</a> 
         </div>
-        <img src="/images/logo2.png" alt="Logo" className="h-15 w-auto absolute left-2/4 -translate-x-2/4"/>
+        <img src="&/images/logo2.png" alt="Logo" className="h-15 w-auto absolute left-2/4 -translate-x-2/4"/>
         <div> {/* boutons vers pages de log-in sign-in*/}
           <button onClick={loginClick} className="text-slate-100 mr-2 font-semibold hover:text-gray-400">Connexion</button>
 
@@ -84,7 +105,7 @@ const Header = () => {
         <div className="p-10 border-2 flex items-center justify-between text-white bg-custom-purple w-auto absolute left-2/4 -translate-x-2/4 top-2/4 -translate-y-2/4 rounded-2xl overflow-hidden">
           <section className='text-center'>
             <h1 className='text-3xl mt-4'>Inscription</h1>
-            <form action="">
+            <form action="" onSubmit={handleSubmit}>
               <div className="w-64 relative group cursor-text mt-6 ml-4">
                 <input type="text" id="username" required className="w-full h-10 px-4 text-sm peer bg-custom-purple outline-none border-b-2 border-custom-orange" />
                 <label htmlFor="username" className="cursor-text transform transition-all absolute top-0 left-0 h-full flex items-center pl-2 text-sm group-focus-within:text-xs peer-valid:text-xs group-focus-within:h-1/2 peer-valid:h-1/2 group-focus-within:-translate-y-full peer-valid:-translate-y-full group-focus-within:pl-0 peer-valid:pl-0">Nom d'utilisateur</label>
@@ -103,7 +124,7 @@ const Header = () => {
                     className="cursor-pointer hidden" 
                     value="homme"
                     onChange={handleOptionChange}
-                    checked={selectedOption === "homme"}
+                    checked={selectedOption === "true"}
                   />
                   <label 
                     htmlFor="men" 
@@ -145,12 +166,12 @@ const Header = () => {
                 </span>
               </button>
             </form>
-            <p className='cursor-default mt-6 mx-4 mb-4'>Tu as déjà un compte ? <em onClick={loginClick} className='cursor-pointer text-custom-orange underline'>Connecte-toi</em></p>
+            <p className='cursor-default mt-6 mx-4 mb-4'>Tu as déjà un compte ? <em onClick={loginClick} className='cursor-pointer text-custom-orange font-semibold underline'>Connecte-toi</em></p>
           </section>
           <section className='z-2'>
             <button onClick={signinClose} className="absolute top-0 right-0 btn bg-custom-red rounded mr-2 mt-1 p-1 text-white font-semibold hover:bg-red-700">X</button>
-            <img className='absolute end-0 bottom-0 h-5/6 w-2/6 -z-10' src='/images/connexionRectangle.png' alt="decoration"/>
-            <img src="/images/mecInscription.png" alt="photoInscription" className='h-64'/>
+            <img className='absolute end-0 bottom-0 h-5/6 w-2/6 -z-10' src='images/connexionRectangle.png' alt="decoration"/>
+            <img src="images/mecInscription.png" alt="photoInscription" className='h-64'/>
           </section>
         </div>
       </div>
@@ -174,12 +195,12 @@ const Header = () => {
                 </span>
               </button>
             </form>
-            <p className='cursor-default mt-6 mx-4 mb-4'>Tu n'as pas de compte ? <em onClick={signinClick} className='cursor-pointer text-custom-orange underline'>Inscris-toi</em></p>
+            <p className='cursor-default mt-6 mx-4 mb-4'>Tu n'as pas de compte ? <em onClick={signinClick} className='cursor-pointer text-custom-orange font-semibold underline'>Inscris-toi</em></p>
           </section>
           <section className='px-10'>
             <button onClick={loginClose} className="absolute top-0 right-0 btn bg-custom-red rounded mr-2 mt-1 p-1 text-white font-semibold hover:bg-red-700">X</button>
-            <img src="/images/mecConnexion.png" alt="photoConnexion" className='h-64'/>
-            <img className='absolute end-0 bottom-0 h-5/6 w-2/6 -z-10' src='/images/connexionRectangle.png' alt="decoration"/>
+            <img src="images/mecConnexion.png" alt="photoConnexion" className='h-64'/>
+            <img className='absolute end-0 bottom-0 h-5/6 w-2/6 -z-10' src='images/connexionRectangle.png' alt="decoration"/>
 
           </section>
         </div>
