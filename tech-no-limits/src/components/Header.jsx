@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import {useRouter} from "next/navigation"
-import {signIn, useSession} from "next-auth/react"
+import {signIn, signOut, useSession} from "next-auth/react"
 
 
 const createUser = async (username, email, sex, password) => {
@@ -12,7 +12,6 @@ const createUser = async (username, email, sex, password) => {
       sex,
       password,
     });
-    // Ici dans le console.log on affiche tous les champs de l'utilisateur qui vient d'être créé
     console.log(response.data);
 };
 
@@ -20,7 +19,12 @@ export { createUser };
 
 
 const Header = () => {
+  const { data: session, status } = useSession();
+  let connected = false;
 
+  if (status === "authenticated") {
+      connected = true;
+  }
   let [selectedOption, setSelectedOption] = useState(null);
 
   const handleOptionChange = (event) => {
@@ -78,6 +82,7 @@ const Header = () => {
     if (password !== confirmPassword) {
       return;
     }
+    signinClose()
     try {
       const newUser = await createUser(username, email, selectedOption, password);
       document.getElementById("username").value = "";
@@ -131,9 +136,10 @@ const Header = () => {
 
 const router = useRouter()
 const [datalog,setData] = useState({
-    emaillog:'',
-    passwordlog:''
+    email:'',
+    password:''
 })
+
 const loginUser = async (e) => {
   e.preventDefault()
   signIn('credentials',{
@@ -141,32 +147,59 @@ const loginUser = async (e) => {
       redirect:false,
   }).then(authenticated => {
     if(authenticated.status == 200){
-      console.log("gg")
+      loginClose()
     }
-    console.log(authenticated)
   }).catch((error) => {
     console.log("Erreur e-mail our mot de passe incorrect")
   })
-
 }
+  console.log(session)
+  if (status === 'loading') {
+    return(    
+    <header className='select-none'>
+      <div className="bg-custom-purple flex items-center justify-between h-15">
+        <div>
+            <a href="/" className="text-slate-100 mr-2 ml-5 font-semibold hover:text-gray-400">ACCUEIL</a>
+            <a href="" className="text-slate-100 mx-2 font-semibold hover:text-gray-400">ACTUS</a>
+            <a href="/pages/categories" className="text-slate-100 mx-2 font-semibold hover:text-gray-400">CATEGORIES</a>
+        </div>
+        <img src="/images/logo2.png" alt="Logo" className="h-15 w-auto absolute left-2/4 -translate-x-2/4"/>
+        <div className='flex items-center'>
+          <p className="text-slate-200 text-right mr-6 ml-5 font-bold text-xl hover:text-gray-200">Chargement en cours...</p>
+        </div>
+      </div>
+    </header>);
+  }
+
   return (
     <header className='select-none'>
       <div className="bg-custom-purple flex items-center justify-between h-15">
-        <div> {/* boutons vers pages de contenus */}
+        <div>
           <a href="/" className="text-slate-100 mr-2 ml-5 font-semibold hover:text-gray-400">ACCUEIL</a>
           <a href="" className="text-slate-100 mx-2 font-semibold hover:text-gray-400">ACTUS</a>
           <a href="/pages/categories" className="text-slate-100 mx-2 font-semibold hover:text-gray-400">CATEGORIES</a> 
         </div>
         <img src="/images/logo2.png" alt="Logo" className="h-15 w-auto absolute left-2/4 -translate-x-2/4"/>
-        <div>
-            <button onClick={loginClick} className="text-slate-100 mr-2 font-semibold hover:text-gray-400">Connexion</button>
-            <button onClick={signinClick} className="btn relative inline-flex items-center justify-start overflow-hidden transition-all bg-custom-orange rounded hover:bg-custom-orange group mr-5 ml-2 p-2 font-semibold">
+        {connected ? (
+        <>
+        <div className='flex items-center'>
+          <p className="text-slate-200 text-right mr-2 ml-5 font-bold text-xl hover:text-gray-200">{session.user.username}</p>
+          <button onClick={signOut} className="btn relative inline-flex items-center justify-start overflow-hidden transition-all bg-custom-orange rounded hover:bg-custom-orange group mr-5 ml-2 p-2 font-semibold">
               <span className="w-0 h-0 rounded bg-custom-brown absolute top-0 left-0 ease-out duration-500 transition-all group-hover:w-full group-hover:h-full -z-1"></span>
               <span className="w-full text-black transition-colors duration-300 ease-in-out group-hover:text-white z-10">
-                Inscription
+                Déconnexion
               </span>
-            </button>
+          </button>
         </div>
+        </>) : (<>        <div>
+          
+          <button onClick={loginClick} className="text-slate-100 mr-2 font-semibold hover:text-gray-400">Connexion</button>
+          <button onClick={signinClick} className="btn relative inline-flex items-center justify-start overflow-hidden transition-all bg-custom-orange rounded hover:bg-custom-orange group mr-5 ml-2 p-2 font-semibold">
+            <span className="w-0 h-0 rounded bg-custom-brown absolute top-0 left-0 ease-out duration-500 transition-all group-hover:w-full group-hover:h-full -z-1"></span>
+            <span className="w-full text-black transition-colors duration-300 ease-in-out group-hover:text-white z-10">
+              Inscription
+            </span>
+          </button>
       </div>
       <div id='signin' className='hidden backdrop-filter backdrop-blur-md fixed w-full h-full z-20 top-0'>
         <div className="p-10 border-2 flex items-center justify-between text-white bg-custom-purple w-auto absolute left-2/4 -translate-x-2/4 top-2/4 -translate-y-2/4 rounded-2xl overflow-hidden">
@@ -179,7 +212,7 @@ const loginUser = async (e) => {
               </div>
               <div className="w-64 relative group cursor-text mt-6 ml-4">
                 <input type="text" id="mailreg" required className="w-full h-10 px-4 text-sm peer bg-custom-purple outline-none border-b-2 border-custom-orange" />
-                <label htmlFor="mail" className="cursor-text transform transition-all absolute top-0 left-0 h-full flex items-center pl-2 text-sm group-focus-within:text-xs peer-valid:text-xs group-focus-within:h-1/2 peer-valid:h-1/2 group-focus-within:-translate-y-full peer-valid:-translate-y-full group-focus-within:pl-0 peer-valid:pl-0">E-mail</label>
+                <label htmlFor="mailreg" className="cursor-text transform transition-all absolute top-0 left-0 h-full flex items-center pl-2 text-sm group-focus-within:text-xs peer-valid:text-xs group-focus-within:h-1/2 peer-valid:h-1/2 group-focus-within:-translate-y-full peer-valid:-translate-y-full group-focus-within:pl-0 peer-valid:pl-0">E-mail</label>
               </div>
               <div className='flex items-center justify-between px-2 mt-6 ml-4 w-64'>
                 <p className="mr-2">Sexe :</p>
@@ -219,8 +252,18 @@ const loginUser = async (e) => {
                 </div>
               </div>
               <div className="w-64 relative group cursor-text mt-6 ml-4">
-                <input type="password" id="passwordreg" required className="w-full h-10 px-4 text-sm peer bg-custom-purple outline-none border-b-2 border-custom-orange" />
-                <label htmlFor="password" className="cursor-text transform transition-all absolute top-0 left-0 h-full flex items-center pl-2 text-sm group-focus-within:text-xs peer-valid:text-xs group-focus-within:h-1/2 peer-valid:h-1/2 group-focus-within:-translate-y-full peer-valid:-translate-y-full group-focus-within:pl-0 peer-valid:pl-0">Mot de passe</label>
+                <input
+                  type="password"
+                  id="passwordreg"
+                  required
+                  className="w-full h-10 px-4 text-sm peer bg-custom-purple outline-none border-b-2 border-custom-orange"
+                />
+                <label
+                  htmlFor="passwordreg"
+                  className="cursor-text transform transition-all absolute top-0 left-0 h-full flex items-center pl-2 text-sm group-focus-within:text-xs peer-valid:text-xs group-focus-within:h-1/2 peer-valid:h-1/2 group-focus-within:-translate-y-full peer-valid:-translate-y-full group-focus-within:pl-0 peer-valid:pl-0"
+                >
+                  Mot de passe
+                </label>
               </div>
               <div className="w-64 relative group cursor-text mt-6 ml-4">
                 <input type="password" id="confirm-password" required className="w-full h-10 px-4 text-sm peer outline-none bg-custom-purple border-b-2 border-custom-orange" />
@@ -253,20 +296,29 @@ const loginUser = async (e) => {
                 onChange={(e) => {setData({...datalog, email:e.target.value})}}
                 id="email"
                 name="email"
-                type="text"
+                type="email"
                 required className="w-full h-10 px-4 text-sm peer bg-custom-purple outline-none border-b-2 border-custom-orange" />
-                <label htmlFor="text" className="cursor-text transform transition-all absolute top-0 left-0 h-full flex items-center pl-2 text-sm group-focus-within:text-xs peer-valid:text-xs group-focus-within:h-1/2 peer-valid:h-1/2 group-focus-within:-translate-y-full peer-valid:-translate-y-full group-focus-within:pl-0 peer-valid:pl-0">E-mail</label>
+                <label htmlFor="email" className="cursor-text transform transition-all absolute top-0 left-0 h-full flex items-center pl-2 text-sm group-focus-within:text-xs peer-valid:text-xs group-focus-within:h-1/2 peer-valid:h-1/2 group-focus-within:-translate-y-full peer-valid:-translate-y-full group-focus-within:pl-0 peer-valid:pl-0">E-mail</label>
               </div>
               <div className="w-64 relative group cursor-text mt-6 ml-4">
-                <input 
-                id="password"
-                name="password"
-                type="password"
-                required
-                value={datalog.password}
-                onChange={(e) => {setData({...datalog, password:e.target.value})}}
-                className="w-full h-10 px-4 text-sm peer bg-custom-purple outline-none border-b-2 border-custom-orange" />
-                <label htmlFor="passwordlog" className="cursor-text transform transition-all absolute top-0 left-0 h-full flex items-center pl-2 text-sm group-focus-within:text-xs peer-valid:text-xs group-focus-within:h-1/2 peer-valid:h-1/2 group-focus-within:-translate-y-full peer-valid:-translate-y-full group-focus-within:pl-0 peer-valid:pl-0">Mot de passe</label>
+              <input
+  id="password"
+  name="password"
+  type="password"
+  required
+  value={datalog.password}
+  onChange={(e) => {setData({...datalog, password: e.target.value})}}
+  onFocus={(e) => {if (e.target.value === '') e.target.value = '';}}
+  onBlur={(e) => {if (e.target.value === '') e.target.value = '';}}
+  className="w-full h-10 px-4 text-sm peer bg-custom-purple outline-none border-b-2 border-custom-orange"
+/>
+<label
+  htmlFor="password"
+  className="cursor-text transform transition-all absolute top-0 left-0 h-full flex items-center pl-2 text-sm group-focus-within:text-xs peer-valid:text-xs group-focus-within:h-1/2 peer-valid:h-1/2 group-focus-within:-translate-y-full peer-valid:-translate-y-full group-focus-within:pl-0 peer-valid:pl-0"
+>
+  Mot de passe
+</label>
+
               </div>
               <button type="submit" className="w-64 mt-6 btn relative inline-flex items-center justify-start overflow-hidden transition-all bg-custom-orange rounded hover:bg-custom-orange group mr-5 ml-2 p-2 font-semibold">
                 <span className="w-0 h-0 rounded bg-custom-brown absolute top-0 left-0 ease-out duration-500 transition-all group-hover:w-full group-hover:h-full -z-1"></span>
@@ -284,7 +336,11 @@ const loginUser = async (e) => {
 
           </section>
         </div>
+      </div></>)}
+
+
       </div>
+
     </header>
   );
 };

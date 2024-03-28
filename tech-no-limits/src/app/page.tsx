@@ -1,15 +1,17 @@
 import {prisma} from "@/db/prisma"
-import { ReactElement, JSXElementConstructor, ReactNode, ReactPortal } from "react";
-
+import Logout from '../components/Logout'
 
 export default async function home() {
 
 
+
   const allUsers = await prisma.user.findMany({
     include : { posts:false }})
+
   return (
     <main>
       <a href="api/users/logout" id="test">cocou</a>
+      <Logout />
       <div className="text-center"><ul>{allUsers.map((User) => (<li>{User.email} {User.password}</li>))}</ul></div>
       <a href="../pages/createblog">Créer un blog</a>
         <div className='bg-custom-gray w-full h-full'>
