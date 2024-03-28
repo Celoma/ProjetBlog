@@ -1,9 +1,13 @@
 "use client"
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import {useRouter} from "next/navigation"
+import {signIn, useSession} from "next-auth/react"
+
+
 
 const createUser = async (username, email, sex, password) => {
-
+  console.log("ej cré")
     const response = await axios.post('/api/users/register', {
       username,
       email,
@@ -13,26 +17,6 @@ const createUser = async (username, email, sex, password) => {
     // Ici dans le console.log on affiche tous les champs de l'utilisateur qui vient d'être créé
     console.log(response.data);
 };
-
-const login = async (email, password) => {
-  try {
-    const response = await axios.post('/api/users/login', {
-      email,
-      password,
-    });
-    console.log(response.data);
-    return response.data;
-  } catch (error) {
-    if (error.response) {
-      throw new Error(error.response.data.message || 'Erreur lors de la connexion');
-    } else if (error.request) {
-      throw new Error('Pas de réponse du serveur, veuillez réessayer plus tard');
-    } else {
-      throw new Error('Une erreur s\'est produite, veuillez réessayer plus tard');
-    }
-  }
-};
-
 
 export { createUser };
 
@@ -90,8 +74,8 @@ const Header = () => {
   const handleRegister = async (e) => {
     e.preventDefault();
     const username = document.getElementById("username").value;
-    const email = document.getElementById("mail").value;
-    const password = document.getElementById("password").value;
+    const email = document.getElementById("mailreg").value;
+    const password = document.getElementById("passwordreg").value;
     const confirmPassword = document.getElementById("confirm-password").value;
     if (password !== confirmPassword) {
       return;
@@ -99,8 +83,8 @@ const Header = () => {
     try {
       const newUser = await createUser(username, email, selectedOption, password);
       document.getElementById("username").value = "";
-      document.getElementById("mail").value = "";
-      document.getElementById("password").value = "";
+      document.getElementById("mailreg").value = "";
+      document.getElementById("passwordreg").value = "";
       document.getElementById("confirm-password").value = "";
       selectedOption = null;
     } catch (error) {
@@ -108,52 +92,62 @@ const Header = () => {
     }
   };
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    const email = document.getElementById("usernamelog").value;
-    const password = document.getElementById("passwordlog").value;
-    try {
-      const newUser = await login(email, password);
-      document.getElementById("usernamelog").value = "";
-      document.getElementById("passwordlog").value = "";
-    } catch (error) {
-      console.error('Erreur lors de la connexion :', error);
+
+  useEffect(() => {
+    const addEvent = (element, type, listener) => {
+        if (element.addEventListener)
+            element.addEventListener(type, listener, false);
+        else if (element.attachEvent)
+            element.attachEvent('on' + type, function () { return listener.apply(element, arguments); });
     }
-  };
-  function addEvent(element, type, listener) {
-    if (element.addEventListener)
-        element.addEventListener(type, listener, false);
-    else if (element.attachEvent)
-        element.attachEvent('on' + type, function () { return listener.apply(element, arguments); });
+
+    const escapeKey = (event) => {
+        if (event.keyCode == 27) {
+            document.getElementById('signin').classList.add("hidden");
+            document.getElementById('login').classList.add("hidden");
+            document.documentElement.style.overflow = 'visible';
+        }
+    }
+
+    const closeElements = (event) => {
+        const signinElement = document.getElementById('signin');
+        const loginElement = document.getElementById('login');
+        if (event.target === signinElement || event.target === loginElement) {
+            signinElement.classList.add("hidden");
+            loginElement.classList.add("hidden");
+            document.documentElement.style.overflow = 'visible';
+        }
+    }
+
+    const initEscape = () => {
+        addEvent(document, 'keydown', escapeKey);
+        addEvent(document, 'click', closeElements);
+    }
+
+    if (typeof window !== 'undefined') {
+        initEscape();
+    }
+
+}, []);
+
+
+const router = useRouter()
+const [data,setData] = useState({
+    emaillog:'',
+    passwordlog:''
+})
+const loginUser = async (e) => {
+  e.preventDefault()
+  signIn('credentials',{
+      ...data,
+      redirect:false,
+  }).then(authenticated => {
+    router.push("/pages/profile")
+  }).catch((error) => {
+      throw new Error(error)
+  })
+
 }
-
-function escapeKey(event) {
-    if (event.keyCode == 27) {
-        document.getElementById('signin').classList.add("hidden");
-        document.getElementById('login').classList.add("hidden");
-        document.documentElement.style.overflow = 'visible';    }
-}
-
-function closeElements(event) {
-    const signinElement = document.getElementById('signin');
-    const loginElement = document.getElementById('login');
-    if (event.target === signinElement || event.target === loginElement) {
-        signinElement.classList.add("hidden");
-        loginElement.classList.add("hidden");
-        document.documentElement.style.overflow = 'visible';    }
-}
-
-function initEscape() {
-    addEvent(document, 'keydown', escapeKey);
-    addEvent(document, 'click', closeElements);
-}
-
-if (typeof window !== 'undefined') {
-  addEvent(window, 'load', initEscape);
-}
-
-addEvent(window, 'load', initEscape);
-
   return (
     <header className='select-none'>
       <div className="bg-custom-purple flex items-center justify-between h-15">
@@ -173,7 +167,7 @@ addEvent(window, 'load', initEscape);
             </button>
         </div>
       </div>
-      <div id='signin' className='hidden backdrop-filter backdrop-blur-md fixed w-full h-full z-10 top-0'>
+      <div id='signin' className='hidden backdrop-filter backdrop-blur-md fixed w-full h-full z-20 top-0'>
         <div className="p-10 border-2 flex items-center justify-between text-white bg-custom-purple w-auto absolute left-2/4 -translate-x-2/4 top-2/4 -translate-y-2/4 rounded-2xl overflow-hidden">
           <section className='text-center'>
             <h1 className='text-3xl mt-4'>Inscription</h1>
@@ -183,7 +177,7 @@ addEvent(window, 'load', initEscape);
                 <label htmlFor="username" className="cursor-text transform transition-all absolute top-0 left-0 h-full flex items-center pl-2 text-sm group-focus-within:text-xs peer-valid:text-xs group-focus-within:h-1/2 peer-valid:h-1/2 group-focus-within:-translate-y-full peer-valid:-translate-y-full group-focus-within:pl-0 peer-valid:pl-0">Nom d'utilisateur</label>
               </div>
               <div className="w-64 relative group cursor-text mt-6 ml-4">
-                <input type="text" id="mail" required className="w-full h-10 px-4 text-sm peer bg-custom-purple outline-none border-b-2 border-custom-orange" />
+                <input type="text" id="mailreg" required className="w-full h-10 px-4 text-sm peer bg-custom-purple outline-none border-b-2 border-custom-orange" />
                 <label htmlFor="mail" className="cursor-text transform transition-all absolute top-0 left-0 h-full flex items-center pl-2 text-sm group-focus-within:text-xs peer-valid:text-xs group-focus-within:h-1/2 peer-valid:h-1/2 group-focus-within:-translate-y-full peer-valid:-translate-y-full group-focus-within:pl-0 peer-valid:pl-0">E-mail</label>
               </div>
               <div className='flex items-center justify-between px-2 mt-6 ml-4 w-64'>
@@ -224,7 +218,7 @@ addEvent(window, 'load', initEscape);
                 </div>
               </div>
               <div className="w-64 relative group cursor-text mt-6 ml-4">
-                <input type="password" id="password" required className="w-full h-10 px-4 text-sm peer bg-custom-purple outline-none border-b-2 border-custom-orange" />
+                <input type="password" id="passwordreg" required className="w-full h-10 px-4 text-sm peer bg-custom-purple outline-none border-b-2 border-custom-orange" />
                 <label htmlFor="password" className="cursor-text transform transition-all absolute top-0 left-0 h-full flex items-center pl-2 text-sm group-focus-within:text-xs peer-valid:text-xs group-focus-within:h-1/2 peer-valid:h-1/2 group-focus-within:-translate-y-full peer-valid:-translate-y-full group-focus-within:pl-0 peer-valid:pl-0">Mot de passe</label>
               </div>
               <div className="w-64 relative group cursor-text mt-6 ml-4">
@@ -247,17 +241,30 @@ addEvent(window, 'load', initEscape);
           </section>
         </div>
       </div>
-      <div id='login' className='hidden backdrop-filter backdrop-blur-md absolute w-full h-full z-10 top-0'>
+      <div id='login' className='hidden backdrop-filter backdrop-blur-md absolute w-full h-full z-20 top-0'>
         <div className="rounded-2xl overflow-hidden p-10 border-2 flex items-center justify-between text-white bg-custom-purple h-auto w-auto absolute left-2/4 -translate-x-2/4 top-2/4 -translate-y-2/4">
           <section className='text-center'>
             <h1 className='text-3xl mt-4'>Bonjour !</h1>
-            <form action="" onSubmit={handleLogin}>
+            <form action="" onSubmit={loginUser}>
               <div className="w-64 relative group cursor-text mt-6 ml-4">
-                <input type="text" id="usernamelog" required className="w-full h-10 px-4 text-sm peer bg-custom-purple outline-none border-b-2 border-custom-orange" />
+                <input
+                value={data.email}
+                onChange={(e) => {setData({...data, email:e.target.value})}}
+                id="email"
+                name="email"
+                type="email"
+                required className="w-full h-10 px-4 text-sm peer bg-custom-purple outline-none border-b-2 border-custom-orange" />
                 <label htmlFor="mail" className="cursor-text transform transition-all absolute top-0 left-0 h-full flex items-center pl-2 text-sm group-focus-within:text-xs peer-valid:text-xs group-focus-within:h-1/2 peer-valid:h-1/2 group-focus-within:-translate-y-full peer-valid:-translate-y-full group-focus-within:pl-0 peer-valid:pl-0">E-mail</label>
               </div>
               <div className="w-64 relative group cursor-text mt-6 ml-4">
-                <input type="password" id="passwordlog" required className="w-full h-10 px-4 text-sm peer bg-custom-purple outline-none border-b-2 border-custom-orange" />
+                <input 
+                id="password"
+                name="password"
+                type="password"
+                required
+                value={data.password}
+                onChange={(e) => {setData({...data, password:e.target.value})}}
+                className="w-full h-10 px-4 text-sm peer bg-custom-purple outline-none border-b-2 border-custom-orange" />
                 <label htmlFor="passwordlog" className="cursor-text transform transition-all absolute top-0 left-0 h-full flex items-center pl-2 text-sm group-focus-within:text-xs peer-valid:text-xs group-focus-within:h-1/2 peer-valid:h-1/2 group-focus-within:-translate-y-full peer-valid:-translate-y-full group-focus-within:pl-0 peer-valid:pl-0">Mot de passe</label>
               </div>
               <button type="submit" className="w-64 mt-6 btn relative inline-flex items-center justify-start overflow-hidden transition-all bg-custom-orange rounded hover:bg-custom-orange group mr-5 ml-2 p-2 font-semibold">

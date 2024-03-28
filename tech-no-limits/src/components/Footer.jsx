@@ -25,7 +25,7 @@ const Footer = () => {
                 <div className="mt-28 mr-40">
                     <h4 className="text-lg font-medium text-custom-orange mb-4">Abonne toi à la newsletter</h4>
                     <form className="max-w-lg mx-auto flex">
-                        <input type="email" id="email" className="bg-custom-gray border border-gray-300 text-custom-purple text-sm rounded-l-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Rentre ton email" required />
+                        <input type="email" id="emailfooter" className="bg-custom-gray border border-gray-300 text-custom-purple text-sm rounded-l-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Rentre ton email" required />
                         <button type="submit" className="w-40 btn relative inline-flex font-semibold items-center justify-start overflow-hidden transition-all bg-custom-orange rounded-r-lg hover:bg-custom-orange group p-2">
                             {/* purple box */}
                             <span className="w-0 h-0 rounded-r-lg bg-custom-brown absolute top-0 left-0 ease-out duration-500 transition-all group-hover:w-full group-hover:h-full -z-1"></span>
