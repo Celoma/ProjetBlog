@@ -16,7 +16,8 @@ const config: Config = {
         "custom-orange": "#FFC482",
         "custom-brown": "#A15E49",
         "custom-gray": "#ECECEC",
-        "custom-trans-gray": "#D9D9D980"
+        "custom-trans-gray": "#D9D9D980",
+        "custom-chair": "#FFEDDA"
       },
       height: {
         "footer": "435px",
