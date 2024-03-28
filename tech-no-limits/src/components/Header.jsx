@@ -62,7 +62,7 @@ const Header = () => {
     const loginElement = document.getElementById("login");
     if (loginElement) {
       loginElement.classList.add("hidden");
-      window.removeEventListener('scroll', noScroll);
+      document.documentElement.style.overflow = 'visible';
     }
   }
 
@@ -83,7 +83,7 @@ const Header = () => {
     const signinElement = document.getElementById("signin");
     if (signinElement) {
       signinElement.classList.add("hidden");
-      window.removeEventListener('scroll', noScroll);
+      document.documentElement.style.overflow = 'visible';
     }
   }
 
@@ -148,9 +148,11 @@ function initEscape() {
     addEvent(document, 'click', closeElements);
 }
 
+if (typeof window !== 'undefined') {
+  addEvent(window, 'load', initEscape);
+}
+
 addEvent(window, 'load', initEscape);
-
-
 
   return (
     <header className='select-none'>
