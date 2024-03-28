@@ -6,13 +6,21 @@ import {signIn, useSession} from "next-auth/react"
 
 
 const createUser = async (username, email, sex, password) => {
-    const response = await axios.post('/api/users/register', {
+  const response = await axios.post('/api/users/register', {
       username,
       email,
       sex,
       password,
-    });
-    console.log(response.data);
+  });
+  if (response.status === 200) {
+      signIn('credentials', { email, password, redirect: false }).then(authenticated => {
+        if(authenticated.status == 200){
+          console.log("Connexion réussite !")
+        }
+      }).catch((error) => {
+        console.log("Une erreur est survenue")
+      });
+  }
 };
 
 export { createUser };
