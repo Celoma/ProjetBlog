@@ -5,9 +5,7 @@ import {useRouter} from "next/navigation"
 import {signIn, useSession} from "next-auth/react"
 
 
-
 const createUser = async (username, email, sex, password) => {
-  console.log("ej cré")
     const response = await axios.post('/api/users/register', {
       username,
       email,
@@ -132,19 +130,22 @@ const Header = () => {
 
 
 const router = useRouter()
-const [data,setData] = useState({
+const [datalog,setData] = useState({
     emaillog:'',
     passwordlog:''
 })
 const loginUser = async (e) => {
   e.preventDefault()
   signIn('credentials',{
-      ...data,
+      ...datalog,
       redirect:false,
   }).then(authenticated => {
-    router.push("/pages/profile")
+    if(authenticated.status == 200){
+      console.log("gg")
+    }
+    console.log(authenticated)
   }).catch((error) => {
-      throw new Error(error)
+    console.log("Erreur e-mail our mot de passe incorrect")
   })
 
 }
@@ -248,13 +249,13 @@ const loginUser = async (e) => {
             <form action="" onSubmit={loginUser}>
               <div className="w-64 relative group cursor-text mt-6 ml-4">
                 <input
-                value={data.email}
-                onChange={(e) => {setData({...data, email:e.target.value})}}
+                value={datalog.email}
+                onChange={(e) => {setData({...datalog, email:e.target.value})}}
                 id="email"
                 name="email"
-                type="email"
+                type="text"
                 required className="w-full h-10 px-4 text-sm peer bg-custom-purple outline-none border-b-2 border-custom-orange" />
-                <label htmlFor="mail" className="cursor-text transform transition-all absolute top-0 left-0 h-full flex items-center pl-2 text-sm group-focus-within:text-xs peer-valid:text-xs group-focus-within:h-1/2 peer-valid:h-1/2 group-focus-within:-translate-y-full peer-valid:-translate-y-full group-focus-within:pl-0 peer-valid:pl-0">E-mail</label>
+                <label htmlFor="text" className="cursor-text transform transition-all absolute top-0 left-0 h-full flex items-center pl-2 text-sm group-focus-within:text-xs peer-valid:text-xs group-focus-within:h-1/2 peer-valid:h-1/2 group-focus-within:-translate-y-full peer-valid:-translate-y-full group-focus-within:pl-0 peer-valid:pl-0">E-mail</label>
               </div>
               <div className="w-64 relative group cursor-text mt-6 ml-4">
                 <input 
@@ -262,8 +263,8 @@ const loginUser = async (e) => {
                 name="password"
                 type="password"
                 required
-                value={data.password}
-                onChange={(e) => {setData({...data, password:e.target.value})}}
+                value={datalog.password}
+                onChange={(e) => {setData({...datalog, password:e.target.value})}}
                 className="w-full h-10 px-4 text-sm peer bg-custom-purple outline-none border-b-2 border-custom-orange" />
                 <label htmlFor="passwordlog" className="cursor-text transform transition-all absolute top-0 left-0 h-full flex items-center pl-2 text-sm group-focus-within:text-xs peer-valid:text-xs group-focus-within:h-1/2 peer-valid:h-1/2 group-focus-within:-translate-y-full peer-valid:-translate-y-full group-focus-within:pl-0 peer-valid:pl-0">Mot de passe</label>
               </div>
