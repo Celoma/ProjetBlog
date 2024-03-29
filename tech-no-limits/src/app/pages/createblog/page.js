@@ -22,10 +22,16 @@ const Page = () => {
         e.preventDefault();
         try {
             const response = await axios.post('/api/blog/create', { ...data });
-            console.log(response);
+
+            const id = response.data.id || null
+            const authorId = response.data.authorId || null
+            const dataSet = {"id":id, "authorId":authorId}
+            const response2 = await axios.post('/api/blog/updateUser', { dataSet });
+            console.log(response2.data)
         } catch (error) {
             console.error('Error creating blog:', error);
         }
+
     };
 
     const handleImageChange = (e) => {
