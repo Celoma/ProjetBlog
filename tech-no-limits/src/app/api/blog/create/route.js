@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/db/prisma";
+import axios from "axios";
 
 function generateSlug(title) {
     const normalizedTitle = title.toLowerCase().trim(); // Convertir en minuscules et supprimer les espaces inutiles
@@ -11,7 +12,7 @@ function generateSlug(title) {
 }
 
 export async function POST(request) {
-    try {
+
         const data = await request.json();
         const { title, body, author, images, category } = data;
         const slug = generateSlug(title);
@@ -20,18 +21,9 @@ export async function POST(request) {
                 title: title,
                 body: body,
                 slug: slug,
-                author: { connect: { id: author } },
+                authorId: author,
                 theme: category
             },
         });
-
-        return new NextResponse(JSON.stringify(newBlog), {
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-    } catch (error) {
-        console.error('Error creating blog:', error);
-        return new NextResponse("Internal Server Error", { status: 500 });
-    }
+        return new NextResponse(JSON.stringify(newBlog))
 }
