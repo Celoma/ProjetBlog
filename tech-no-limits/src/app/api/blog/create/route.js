@@ -2,16 +2,15 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/db/prisma";
 
 export async function POST(request) {
-    console.log("aaaaaaaaaaaaaaaaaaaaaaah")
     try {
-        const content = await request.json();
-        const {title, body} = content.data
-        console.log(content.data)
+        const data = await request.json();
+        const {title, body, author} = data
         const newBlog = await prisma.post.create({
             data: {
                 title: title,
                 body: body,
-                slug: ""
+                slug: "",
+                authorId: author,
             },
         });
 

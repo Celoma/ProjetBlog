@@ -12,7 +12,7 @@ const createUser = async (username, email, sex, password) => {
       sex,
       password,
     });
-    console.log(response.data);
+    console.log(response);
 };
 
 export { createUser };

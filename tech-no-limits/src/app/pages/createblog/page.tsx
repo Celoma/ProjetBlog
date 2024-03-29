@@ -1,24 +1,31 @@
 "use client"
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useSession } from 'next-auth/react';
 
 const page = () => {
+    const { data: session, status } = useSession();
 
     const [data,setData] = useState({
         title:'',
-        body:''
+        body:'',
+        author: '',
     })
 
-    
-    const handleNewBlog = async (e:any) => {
-        console.log(data)
-        e.preventDefault();
-        const response = await axios.post('/api/users/register', {
-            data
-        });
-        console.log(response.data)
-      };
 
+
+    const handleNewBlog = async (e: any) => {
+        e.preventDefault();
+        const updatedData = { ...data, author: session?.user.id };
+        console.log(updatedData);
+    
+        try {
+            const response = await axios.post('/api/blog/create', updatedData);
+            console.log(response);
+        } catch (error) {
+            console.error('Error creating blog:', error);
+        }
+    };
     return (
         <div className='relative'>
             <div className='bg-custom-trans-gray rounded-xl max-w-[1100px] py-[1px] mx-auto p-6 my-10 z-10 backdrop-blur-[3px]'>

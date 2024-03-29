@@ -53,6 +53,7 @@ export const authOptions = {
                     permission: user.permission,
                     sex: user.sex,
                     posts: user.posts,
+                    user: user
                 };
             }
             return token
@@ -62,6 +63,8 @@ export const authOptions = {
             session.user.permission = token.permission;
             session.user.sex = token.sex;
             session.user.posts = token.posts
+            session.userobject = token.user;
+            session.user.id = token.id
             return session
         }
 
