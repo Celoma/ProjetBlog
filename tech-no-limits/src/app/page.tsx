@@ -5,8 +5,7 @@ export default async function home() {
 
 
 
-  const allUsers = await prisma.user.findMany({
-    include : { posts:false }})
+  const allUsers = await prisma.user.findMany()
 
   return (
     <main>
