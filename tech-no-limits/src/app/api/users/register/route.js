@@ -4,6 +4,7 @@ import bcrypt from 'bcrypt';
 import { signIn } from 'next-auth/react';
 
 export async function POST(request) {
+    try {
         const data = await request.json();
         const { email, password } = data;
 
@@ -24,20 +25,27 @@ export async function POST(request) {
                 email: email,
                 sex: data.sex === "femme",
                 password: hashedPassword,
-                permission: "user"
+                permission: "user",
             },
         });
-        await signIn('credentials',{
-            ...datalog,
-            redirect:false,
-        }).then(authenticated => {
-          if(authenticated.status == 200){
-console.log("salam")          }
-        }).catch((error) => {
-          console.log("Erreur e-mail our mot de passe incorrect")
-        })
-        
-        return new NextResponse("User created successfully and logged in", { status: 200 });
-        
-}
 
+        // Logging in the new user
+        const signInResponse = await signIn('credentials', {
+            email: email,
+            password: password,
+            redirect: false,
+        });
+
+        if (signInResponse?.error) {
+            console.error("Error: Incorrect email or password");
+            return new NextResponse("Error: Incorrect email or password", { status: 401 });
+        }
+
+        console.log("User created successfully and logged in");
+
+        return new NextResponse("User created successfully and logged in", { status: 200 });
+    } catch (error) {
+        console.error('Error creating user:', error);
+        return new NextResponse("Internal Server Error", { status: 500 });
+    }
+}
