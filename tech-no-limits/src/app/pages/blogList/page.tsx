@@ -3,21 +3,20 @@ import React, { useState, useEffect } from 'react';
 import { prisma } from "@/db/prisma"
 import axios from 'axios';
 
+
 export default function Page() {
     const [currentPage, setCurrentPage] = useState(1);
-    
+
     const allBlog = async () => {
-       const response = await axios.get('/api/blog/get')
-       return response.data
+        const response = await axios.get('/api/blog/get')
+        console.log(response)
     }
 
     const allUser = async () => {
         const response = await axios.get('/api/user/get')
-        return response.data
+        console.log(response)
     }
-
-
-
+    
     // Calculer l'index de début et de fin pour la pagination
     const startIndex = (currentPage - 1) * 9;
     const endIndex = Math.min(startIndex + 9, allBlog.length);
