@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/db/prisma";
-import { json } from "stream/consumers";
 
 
 export async function POST(request) {
