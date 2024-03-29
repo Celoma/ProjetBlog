@@ -25,7 +25,7 @@ export default async function home() {
               <span className="relative invisible">Je partage mon article</span>
             </a>
           </div>
-          <img src="/images/createblog.png" alt="" className='max-w-[725px]'/> 
+          <img src="/images/createblog.png" alt="" className='max-w-[725px]'/>
         </div>
       </div>
     </main>
