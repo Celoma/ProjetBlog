@@ -164,7 +164,6 @@ const loginUser = async (e) => {
     console.log("Erreur e-mail our mot de passe incorrect")
   })
 }
-  console.log(session)
   if (status === 'loading') {
     return(    
     <header className='select-none'>

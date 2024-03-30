@@ -3,8 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { prisma } from "@/db/prisma"
 import axios from 'axios';
 
-
-export default function Page() {
+export default async function Page() {
     const [currentPage, setCurrentPage] = useState(1);
 
     const allBlog = async () => {

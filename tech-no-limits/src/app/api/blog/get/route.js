@@ -6,6 +6,6 @@ export async function POST(request) {
         const data = await prisma.post.findMany()
         return new NextResponse(JSON.stringify(data))
     } catch (error) {
-        
+        return new NextResponse(error)
     }
 }

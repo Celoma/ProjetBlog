@@ -1,8 +1,5 @@
-export default async function home() {
-
-
-
-
+"use client"
+export default function home() {
   return (
     <main>
       <a href="pages/blogList">Voici la liste de tous les blogs</a>
