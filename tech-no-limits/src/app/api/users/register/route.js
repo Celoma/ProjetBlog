@@ -28,22 +28,7 @@ export async function POST(request) {
                 permission: "user",
             },
         });
-
-        // Logging in the new user
-        const signInResponse = await signIn('credentials', {
-            email: email,
-            password: password,
-            redirect: false,
-        });
-
-        if (signInResponse?.error) {
-            console.error("Error: Incorrect email or password");
-            return new NextResponse("Error: Incorrect email or password", { status: 401 });
-        }
-
-        console.log("User created successfully and logged in");
-
-        return new NextResponse("User created successfully and logged in", { status: 200 });
+        return new NextResponse("User created successfully", { status: 200 });
     } catch (error) {
         console.error('Error creating user:', error);
         return new NextResponse("Internal Server Error", { status: 500 });

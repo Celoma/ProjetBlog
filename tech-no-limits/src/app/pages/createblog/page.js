@@ -65,13 +65,13 @@ const Page = () => {
                         value={data.category}
                         onChange={(e) => { setData({ ...data, category: e.target.value }) }}>
                         <option value="" hidden>Choisissez le thème de votre article</option>
-                        <option value="developpement">Développement</option>
-                        <option value="reseau">Réseau</option>
-                        <option value="gaming">Gaming</option>
-                        <option value="gadget">Gadget</option>
-                        <option value="github">GitHub</option>
-                        <option value="musique">Musique</option>
-                        <option value="cloud">Cloud</option>
+                        <option value="Développement">Développement</option>
+                        <option value="Réseau">Réseau</option>
+                        <option value="Gaming">Gaming</option>
+                        <option value="Gadget">Gadget</option>
+                        <option value="Github">GitHub</option>
+                        <option value="Musique">Musique</option>
+                        <option value="Cloud">Cloud</option>
                     </select>
                     </div>
                     <div className='mb-6 flex flex-col'>

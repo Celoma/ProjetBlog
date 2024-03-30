@@ -13,6 +13,17 @@ const createUser = async (username, email, sex, password) => {
       password,
     });
     console.log(response);
+    const dataSignIn = {email, password}
+    signIn('credentials',{
+      ...dataSignIn,
+      redirect:false,
+  }).then(authenticated => {
+    if(authenticated.status == 200){
+      console.log("La connexion au nouveau compte est un succès !")
+    }
+  }).catch((error) => {
+    console.log("Erreur e-mail our mot de passe incorrect")
+  })
 };
 
 export { createUser };
@@ -183,7 +194,7 @@ const loginUser = async (e) => {
         {connected ? (
         <>
         <div className='flex items-center'>
-          <p className="text-slate-200 text-right mr-2 ml-5 font-bold text-xl hover:text-gray-200">{session.user.username}</p>
+          <a href='/pages/profile' className="text-slate-200 text-right mr-2 ml-5 font-bold text-xl hover:text-slate-400">{session.user.username}</a>
           <button onClick={signOut} className="btn relative inline-flex items-center justify-start overflow-hidden transition-all bg-custom-orange rounded hover:bg-custom-orange group mr-5 ml-2 p-2 font-semibold">
               <span className="w-0 h-0 rounded bg-custom-brown absolute top-0 left-0 ease-out duration-500 transition-all group-hover:w-full group-hover:h-full -z-1"></span>
               <span className="w-full text-black transition-colors duration-300 ease-in-out group-hover:text-white z-10">

@@ -1,19 +1,12 @@
-import {prisma} from "@/db/prisma"
-import Logout from '../components/Logout'
-
 export default async function home() {
 
 
 
-  const allUsers = await prisma.user.findMany()
 
   return (
     <main>
-      <a href="api/users/logout" id="test">cocou</a>
-      <Logout />
-      <div className="text-center"><ul>{allUsers.map((User) => (<li>{User.email} {User.password}</li>))}</ul></div>
-      <a href="../pages/createblog">Créer un blog</a>
-        <div className='bg-custom-gray w-full h-full'>
+      <a href="pages/blogList">Voici la liste de tous les blogs</a>
+      <div className='bg-custom-gray w-full h-full'>
         <div className='flex justify-between items-center'>
           <div className='flex flex-col ml-14 pt-28'>
             <h1 className='text-custom-purple font-semibold text-6xl text-center max-w-[500px]'>Tu as envie de partager une actualité ?</h1>
