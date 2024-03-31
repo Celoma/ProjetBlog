@@ -14,7 +14,7 @@ export default function Page() {
                 const blogResponse = await axios.get('/api/blog/get');
                 setAllBlog(blogResponse.data);
                 
-                const userResponse = await axios.get('/api/user/get');
+                const userResponse = await axios.get('/api/users/get');
                 setAllUsers(userResponse.data);
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -35,7 +35,6 @@ export default function Page() {
 
     return (
         <div>
-            <div className="text-center"><ul>{allUsers.map((User) => (<li>{User.email} {User.password}</li>))}</ul></div>
             <div className='flex flex-col'>   
                 <div className='flex justify-between'>
                     <h1 className='ml-[140px] font-bold text-3xl'>Annuaire des articles</h1>
@@ -44,7 +43,7 @@ export default function Page() {
                 <div className="grid grid-cols-3 gap-4 px-[140PX]">
                     {allBlog.slice(startIndex, endIndex).map((Post, index) => (
                         <React.Fragment key={index}>
-                            <div className='cursor-pointer hover:bg-[#D9D9D9] flex flex-col bg-custom-gray w-[400px] rounded'>
+                            <a href={`/pages/blog/${Post.id}`} className='cursor-pointer hover:bg-[#D9D9D9] flex flex-col bg-custom-gray w-[400px] rounded'>
                                 <img className="w-[400px] h-[255PX] rounded" src="/images/defaultblog.jpg" alt="" />
                                 <p className='text-sm ml-2 w-min text-white bg-custom-blue p-0.5 rounded-md mt-4 mb-2'>{Post.theme}</p>
                                 <h1 className='ml-2 font-bold text-3xl truncate mb-2'>{Post.title}</h1>
@@ -52,7 +51,7 @@ export default function Page() {
                                     <p className='text-sm ml-2 text-[#777777] mb-2'>{allUsers.find(user => user.id === Post.authorId)?.username}</p>
                                 )}
                                 <p className='ml-2 truncate mb-2'>{Post.body}</p>
-                            </div>
+                            </a>
                         </React.Fragment>
                     ))}
                 </div>

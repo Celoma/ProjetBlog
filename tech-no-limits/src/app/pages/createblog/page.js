@@ -77,7 +77,7 @@ const Page = () => {
                     <div className='mb-6 flex flex-col'>
                     <label className='text-2xl' htmlFor="body">Votre article:</label>
                     <textarea id="body" name="body"
-                        className='min-h-[400px] resize-y rounded-lg p-2 bg-custom-gray'
+                        className='min-h-[400px] resize-y rounded-lg p-2 bg-custom-gray whitespace-pre-wrap'
                         value={data.body}
                         onChange={(e) => { setData({ ...data, body: e.target.value }) }}
                     >

@@ -312,23 +312,22 @@ const loginUser = async (e) => {
               </div>
               <div className="w-64 relative group cursor-text mt-6 ml-4">
               <input
-  id="password"
-  name="password"
-  type="password"
-  required
-  value={datalog.password}
-  onChange={(e) => {setData({...datalog, password: e.target.value})}}
-  onFocus={(e) => {if (e.target.value === '') e.target.value = '';}}
-  onBlur={(e) => {if (e.target.value === '') e.target.value = '';}}
-  className="w-full h-10 px-4 text-sm peer bg-custom-purple outline-none border-b-2 border-custom-orange"
-/>
-<label
-  htmlFor="password"
-  className="cursor-text transform transition-all absolute top-0 left-0 h-full flex items-center pl-2 text-sm group-focus-within:text-xs peer-valid:text-xs group-focus-within:h-1/2 peer-valid:h-1/2 group-focus-within:-translate-y-full peer-valid:-translate-y-full group-focus-within:pl-0 peer-valid:pl-0"
->
-  Mot de passe
-</label>
-
+                id="password"
+                name="password"
+                type="password"
+                required
+                value={datalog.password}
+                onChange={(e) => {setData({...datalog, password: e.target.value})}}
+                onFocus={(e) => {if (e.target.value === '') e.target.value = '';}}
+                onBlur={(e) => {if (e.target.value === '') e.target.value = '';}}
+                className="w-full h-10 px-4 text-sm peer bg-custom-purple outline-none border-b-2 border-custom-orange"
+              />
+              <label
+                htmlFor="password"
+                className="cursor-text transform transition-all absolute top-0 left-0 h-full flex items-center pl-2 text-sm group-focus-within:text-xs peer-valid:text-xs group-focus-within:h-1/2 peer-valid:h-1/2 group-focus-within:-translate-y-full peer-valid:-translate-y-full group-focus-within:pl-0 peer-valid:pl-0"
+              >
+                Mot de passe
+              </label>
               </div>
               <button type="submit" className="w-64 mt-6 btn relative inline-flex items-center justify-start overflow-hidden transition-all bg-custom-orange rounded hover:bg-custom-orange group mr-5 ml-2 p-2 font-semibold">
                 <span className="w-0 h-0 rounded bg-custom-brown absolute top-0 left-0 ease-out duration-500 transition-all group-hover:w-full group-hover:h-full -z-1"></span>
