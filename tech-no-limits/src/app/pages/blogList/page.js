@@ -101,6 +101,9 @@ export default function Home() {
         <div className="grid grid-cols-3 gap-4 px-[140PX] m-16">
           {blogs.map((blog) => (
             <Post key={blog.id} blog={blog} />
+        <div className="grid grid-cols-3 gap-4 px-[140PX] m-16">
+          {blogs.map((blog) => (
+            <Post key={blog.id} blog={blog} />
           ))}
         </div>
         <div className='flex justify-center'>
@@ -110,6 +113,8 @@ export default function Home() {
             </svg>
             <p>Prev.</p>
           </button>
+          <p className='hover:text-slate-100 hover:bg-custom-purple mx-4 my-3 p-4 items-center text-custom-puple border-solid border-[1px] border-custom-purple rounded-lg'>{currentPage}</p>
+          <button id="testation" onClick={handleNextPage} className='hover:text-slate-100 hover:bg-custom-purple mx-4 my-3 flex p-4 items-center text-custom-puple border-solid border-[1px] border-custom-purple rounded-lg'>
           <p className='hover:text-slate-100 hover:bg-custom-purple mx-4 my-3 p-4 items-center text-custom-puple border-solid border-[1px] border-custom-purple rounded-lg'>{currentPage}</p>
           <button id="testation" onClick={handleNextPage} className='hover:text-slate-100 hover:bg-custom-purple mx-4 my-3 flex p-4 items-center text-custom-puple border-solid border-[1px] border-custom-purple rounded-lg'>
             <p>Suiv.</p>
