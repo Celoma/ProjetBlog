@@ -41,6 +41,7 @@ id 	String @id @default(auto()) @map("_id") @db.ObjectId
 comment 	String
 postId 	String @db.ObjectId
 authorID String @db.ObjectId
+
 }
 
 model Session {

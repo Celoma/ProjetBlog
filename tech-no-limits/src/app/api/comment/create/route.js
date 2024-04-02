@@ -4,12 +4,14 @@ import { prisma } from "@/db/prisma";
 export async function POST(request) {
     try {
         const requestBody = await request.json();
+
+        console.log(requestBody)
         
         if (!requestBody || typeof requestBody !== 'object') {
             throw new Error('Invalid request body');
         }
 
-        const { idblog, comment, idauthor } = requestBody;
+        const { comment, author, idblog } = requestBody;
 
         if (!idblog || !comment) {
             throw new Error('Missing required fields in request body');
@@ -34,7 +36,7 @@ export async function POST(request) {
             data: {
                 comment: comment,
                 postId: idblog,
-                authorID: idauthor
+                authorID: author
             },
         });
 

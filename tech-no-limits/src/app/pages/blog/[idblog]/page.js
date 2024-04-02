@@ -2,12 +2,25 @@
 import { NextPage } from 'next';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useSession } from 'next-auth/react';
+
 
 const Page = ({ params }) => {
     const { idblog } = params;
     const [allBlog, setAllBlog] = useState([]);
     const [allUsers, setAllUsers] = useState([]);
     const [comment, setComment] = useState(''); // Ajoutez un état pour stocker la valeur du commentaire
+
+    const { data: session, status } = useSession();
+    const [data, setData] = useState({
+        author: session?.user?.id || '',
+    });
+
+    useEffect(() => {
+        if (status === 'authenticated') {
+            setData(prevData => ({ ...prevData, author: session?.user?.id || '' }));
+        }
+    }, [status, session]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -35,7 +48,7 @@ const Page = ({ params }) => {
 
         try {
             // Envoi du commentaire au serveur
-            await axios.post('/api/comment/create', { idblog, comment });
+            await axios.post('/api/comment/create', { comment, ...data, idblog});
 
             // Effacer le commentaire après l'envoi
             setComment('');
