@@ -19,7 +19,6 @@ model Post {
   title    String
   body     String
   authorId String?    @db.ObjectId
-  comments Comment[]
   theme    String
 }
 
@@ -40,8 +39,8 @@ accounts      Account[]
 model Comment {
 id 	String @id @default(auto()) @map("_id") @db.ObjectId
 comment 	String
-post 	Post @relation(fields: [postId], references: [id])
 postId 	String @db.ObjectId
+authorID String @db.ObjectId
 }
 
 model Session {

@@ -7,6 +7,7 @@ const Page = ({ params }) => {
     const { idblog } = params;
     const [allBlog, setAllBlog] = useState([]);
     const [allUsers, setAllUsers] = useState([]);
+    const [comment, setComment] = useState(''); // Ajoutez un état pour stocker la valeur du commentaire
 
     useEffect(() => {
         const fetchData = async () => {
@@ -29,7 +30,21 @@ const Page = ({ params }) => {
 
     const author = allUsers.find(user => user.id === blog?.authorId);
 
+    const handleNewComment = async (e) => {
+        e.preventDefault(); // Empêche le comportement par défaut du formulaire
 
+        try {
+            // Envoi du commentaire au serveur
+            await axios.post('/api/comment/create', { idblog, comment });
+
+            // Effacer le commentaire après l'envoi
+            setComment('');
+
+            // Ajouter ici toute autre logique après l'envoi du commentaire, comme rafraîchir les commentaires, afficher un message de confirmation, etc.
+        } catch (error) {
+            console.error('Error creating comment:', error);
+        }
+    };
 
     return (
         <main className='bg-slate-100'>
@@ -56,8 +71,14 @@ const Page = ({ params }) => {
                 <div className='pl-10'>
                     <h2 className='font-semibold text-3xl mb-2 mt-2'>Donne ton avis sur l'article</h2>
                     <h3 className='text-xl mb-2'>Bienvenue dans la zone de commentaire, restez courtois et respectueux</h3>
-                    <form className='flex flex-col'>
-                        <textarea placeholder='Que voulez vous partager ?' className='p-2 resize-none h-[170px] w-[830px] rounded-xl bg-custom-gray mb-2'></textarea>
+                    <form className='flex flex-col' onSubmit={handleNewComment}>
+                        <textarea 
+                            name="comment" // Ajoutez cet attribut
+                            placeholder='Que voulez-vous partager ?' 
+                            className='p-2 resize-none h-[170px] w-[830px] rounded-xl bg-custom-gray mb-2'
+                            value={comment} // Assurez-vous de lier la valeur à l'état comment
+                            onChange={(e) => setComment(e.target.value)} // Gérez le changement de la valeur
+                        ></textarea>                        
                         <div className='flex'>
                             <button className='bg-[#D9D9D9] py-2 text-custom-purple rounded-full px-4'>Annuler</button>
                             <button type='submit' className='flex bg-custom-purple py-2 text-slate-100 rounded-full px-4'>
