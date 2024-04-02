@@ -2,7 +2,6 @@
 export default function home() {
   return (
     <main>
-      <a href="pages/blogList">Voici la liste de tous les blogs</a>
       <div className='bg-custom-gray w-full h-full'>
         <div className='flex justify-between items-center'>
           <div className='flex flex-col ml-14 pt-28'>

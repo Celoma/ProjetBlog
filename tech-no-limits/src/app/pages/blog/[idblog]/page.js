@@ -28,7 +28,6 @@ const Page = ({ params }) => {
             try {
                 const blogResponse = await axios.get('/api/blog/get');
                 setAllBlog(blogResponse.data);
-                
                 const userResponse = await axios.get('/api/users/get');
                 setAllUsers(userResponse.data);
 
@@ -109,7 +108,7 @@ const Page = ({ params }) => {
                             className='p-2 resize-none h-[170px] w-[830px] rounded-xl bg-custom-gray mb-2'
                             value={comment} // Assurez-vous de lier la valeur à l'état comment
                             onChange={(e) => setComment(e.target.value)} // Gérez le changement de la valeur
-                        ></textarea>                        
+                        ></textarea>
                         <div className='flex'>
                             <button className='bg-[#D9D9D9] py-2 text-custom-purple rounded-full px-4'>Annuler</button>
                             <button type='submit' className='flex bg-custom-purple py-2 text-slate-100 rounded-full px-4'>

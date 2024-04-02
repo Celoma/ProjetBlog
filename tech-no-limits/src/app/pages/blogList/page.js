@@ -1,6 +1,5 @@
 "use client"
 import React, { useState, useEffect } from 'react';
-import { prisma } from "@/db/prisma"
 import axios from 'axios';
 
 export default function Page() {
@@ -24,27 +23,29 @@ export default function Page() {
         fetchData();
     }, []);
 
-    // Calculer l'index de début et de fin pour la pagination
     const startIndex = (currentPage - 1) * 9;
     const endIndex = Math.min(startIndex + 9, allBlog.length);
 
-    // Fonction pour changer de page
     const changePage = (page) => {
-        setCurrentPage(page)
+        setCurrentPage(page);
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
     };
 
     return (
         <div>
-            <div className='flex flex-col'>   
+            <div className='flex flex-col'>
                 <div className='flex justify-between'>
                     <h1 className='ml-[140px] font-bold text-3xl'>Annuaire des articles</h1>
                     <input className='mr-[142px] w-[500px] rounded' type="search" />
                 </div>
-                <div className="grid grid-cols-3 gap-4 px-[140PX]">
+                <div className="grid grid-cols-3 gap-16 mb-8 mt-16 px-[140PX]">
                     {allBlog.slice(startIndex, endIndex).map((Post, index) => (
                         <React.Fragment key={index}>
-                            <a href={`/pages/blog/${Post.id}`} className='cursor-pointer hover:bg-[#D9D9D9] flex flex-col bg-custom-gray w-[400px] rounded'>
-                                <img className="w-[400px] h-[255PX] rounded" src="/images/defaultblog.jpg" alt="" />
+                            <a href={`/pages/blog/${Post.id}`} className='cursor-pointer hover:bg-[#D9D9D9] flex flex-col p-4 bg-white rounded'>
+                                <img className="max-h-64 w-auto rounded" src="/images/defaultblog.jpg" alt="" />
                                 <p className='text-sm ml-2 w-min text-white bg-custom-blue p-0.5 rounded-md mt-4 mb-2'>{Post.theme}</p>
                                 <h1 className='ml-2 font-bold text-3xl truncate mb-2'>{Post.title}</h1>
                                 {allUsers && allUsers.find(user => user.id === Post.authorId) && (
