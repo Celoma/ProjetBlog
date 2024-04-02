@@ -20,18 +20,17 @@ export async function POST(request) {
         const likes = existingBlog.likes || [];
         let isLiked = false
 
-        for (let i = 0; i < likes.length; i++) {
-            if (likes[i] === author) {
-                isLiked = true;
-                array.remove(author);
-                break;
+            for (let i = 0; i < likes.length; i++) {
+                if (likes[i] === author) {
+                    isLiked = true;
+                    likes.splice(i, 1);
+                    break;
+                }
             }
-        }
-        if(!isLiked){
-            likes.push(author)
-        }
-        
-        return new NextResponse(JSON.stringify(isLiked));
+            if(!isLiked){
+                likes.push(author)
+            }
+            
 
 
         const updatedPost = await prisma.post.update({
@@ -43,6 +42,7 @@ export async function POST(request) {
             }
         });
     
+        return new NextResponse(JSON.stringify(updatedPost.likes));
 
     } catch (error) {
         console.error('Error updating like:', error);
