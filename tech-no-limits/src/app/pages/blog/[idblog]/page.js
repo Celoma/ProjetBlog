@@ -9,6 +9,7 @@ const Page = ({ params }) => {
     const { idblog } = params;
     const [allBlog, setAllBlog] = useState([]);
     const [allUsers, setAllUsers] = useState([]);
+    const [allComment, setAllComment] = useState([]);
     const [comment, setComment] = useState(''); // Ajoutez un état pour stocker la valeur du commentaire
 
     const { data: session, status } = useSession();
@@ -29,6 +30,9 @@ const Page = ({ params }) => {
                 setAllBlog(blogResponse.data);
                 const userResponse = await axios.get('/api/users/get');
                 setAllUsers(userResponse.data);
+
+                const commentResponse = await axios.get('/api/comment/get');
+                setAllComment(commentResponse.data)
             } catch (error) {
                 console.error('Error fetching dataaaaaa:', error);
             }
@@ -42,6 +46,9 @@ const Page = ({ params }) => {
 
     const author = allUsers.find(user => user.id === blog?.authorId);
 
+    const commentBlog = allComment.find(comment => comment.postID === idblog)
+
+    console.log(commentBlog)
     const handleNewComment = async (e) => {
         e.preventDefault(); // Empêche le comportement par défaut du formulaire
 
@@ -76,6 +83,17 @@ const Page = ({ params }) => {
                     </img>
                     <div className='mt-10 border-l-4 border-custom-purple rounded p-2'>
                         <h2 className='text-4xl font-semibold'>Espace commentaire</h2>
+                    </div>
+                    <div>
+                        {allComment.filter(comment => comment.postId === idblog).map((comment, index) => {
+                            const authorComment = allUsers.find(user => user.id === comment.authorID);
+                            return (
+                                <div key={index} className="bg-white rounded p-4 mb-4">
+                                    {authorComment && <p className="font-semibold">{authorComment.username}</p> }
+                                    <p>{comment.comment}</p>
+                                </div>
+                            );
+                        })}
                     </div>
                 </aside>
             </section>
