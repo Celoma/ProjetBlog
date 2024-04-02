@@ -165,12 +165,12 @@ const loginUser = async (e) => {
   })
 }
   if (status === 'loading') {
-    return(    
+    return(
     <header className='select-none'>
       <div className="bg-custom-purple flex items-center justify-between h-15">
         <div>
             <a href="/" className="text-slate-100 mr-2 ml-5 font-semibold hover:text-gray-400">ACCUEIL</a>
-            <a href="" className="text-slate-100 mx-2 font-semibold hover:text-gray-400">ACTUS</a>
+            <a href="/pages/blogList" className="text-slate-100 mx-2 font-semibold hover:text-gray-400">ACTUS</a>
             <a href="/pages/categories" className="text-slate-100 mx-2 font-semibold hover:text-gray-400">CATEGORIES</a>
         </div>
         <img src="/images/logo2.png" alt="Logo" className="h-15 w-auto absolute left-2/4 -translate-x-2/4"/>
@@ -186,7 +186,7 @@ const loginUser = async (e) => {
       <div className="bg-custom-purple flex items-center justify-between h-15">
         <div>
           <a href="/" className="text-slate-100 mr-2 ml-5 font-semibold hover:text-gray-400">ACCUEIL</a>
-          <a href="" className="text-slate-100 mx-2 font-semibold hover:text-gray-400">ACTUS</a>
+          <a href="/pages/blogList" className="text-slate-100 mx-2 font-semibold hover:text-gray-400">ACTUS</a>
           <a href="/pages/categories" className="text-slate-100 mx-2 font-semibold hover:text-gray-400">CATEGORIES</a> 
         </div>
         <img src="/images/logo2.png" alt="Logo" className="h-15 w-auto absolute left-2/4 -translate-x-2/4"/>

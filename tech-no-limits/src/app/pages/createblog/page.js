@@ -10,7 +10,7 @@ const Page = () => {
     const [data, setData] = useState({
         title: '',
         body: '',
-        author: session?.user?.id || '', 
+        author: session?.user?.id || '',
         category: '',
         images: []
     });
@@ -30,7 +30,7 @@ const Page = () => {
             const dataSet = {"id":id, "authorId":authorId}
             const response2 = await axios.post('/api/blog/updateUser', { dataSet });
             router.push('/');
-            alert('Blog created successfully!'); // Utilisation de l'alerte native
+            alert('Blog created successfully!');
         } catch (error) {
             console.error('Error creating blog:', error);
         }

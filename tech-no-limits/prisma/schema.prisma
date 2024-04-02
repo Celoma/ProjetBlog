@@ -20,6 +20,7 @@ model Post {
   body     String
   authorId String?    @db.ObjectId
   theme    String
+  likes    String[]   @db.ObjectId
 }
 
 
