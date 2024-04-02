@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useSession } from 'next-auth/react';
 
-
 const Page = ({ params }) => {
     const { idblog } = params;
     const [allBlog, setAllBlog] = useState([]);

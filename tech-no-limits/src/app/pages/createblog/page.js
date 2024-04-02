@@ -1,18 +1,19 @@
 "use client"
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, FormEventHandler } from 'react';
 import axios from 'axios';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import { uploadFile } from '../createblog/upload.action';
 
 const Page = () => {
+    const [imageUrl, setImageUrl] = useState(null);
     const router = useRouter();
     const { data: session, status } = useSession();
     const [data, setData] = useState({
         title: '',
         body: '',
         author: session?.user?.id || '', 
-        category: '',
-        images: []
+        category: ''
     });
 
     useEffect(() => {
@@ -24,7 +25,17 @@ const Page = () => {
     const handleNewBlog = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('/api/blog/create', { ...data });
+            const formData = new FormData(e.currentTarget);
+
+            const file = formData.get('file');
+
+            const url = await uploadFile(formData)
+
+            console.log(url)
+
+            setImageUrl(url)
+
+            const response = await axios.post('/api/blog/create', { ...data, url});
             const id = response.data.id || null
             const authorId = response.data.authorId || null
             const dataSet = {"id":id, "authorId":authorId}
@@ -84,14 +95,14 @@ const Page = () => {
                     </textarea>
                     </div>
                     <div className='text-2xl'>
-                    <label htmlFor="imagePost">Inserez vos images ici</label>
-                    <input
-                        type="file"
-                        accept='image/jpeg, image/png'
-                        id='imagePost'
-                        multiple
-                        onChange={handleImageChange} // Gérer le changement d'images
-                    />
+                    <label htmlFor="imagePost">Inserez votre image de présentation</label>
+                        <input
+                            type="file"
+                            accept='image/*'
+                            id='imagePost'
+                            name='file'
+                            onChange={handleImageChange} // Gérer le changement d'images
+                        />
                     </div>
                     <button type='submit' className="m-8 text-2xl left-2/4 -translate-x-2/4 overflow-hidden rounded relative inline-flex group items-center justify-center px-3.5 py-2 m-1 cursor-pointer border-b-4 border-l-2 active:border-custom-purple active:shadow-none shadow-lg bg-gradient-to-tr from-[#521F52] to-purple-700 border-[#3E1E3E] text-white">
                         <span className="absolute w-0 h-0 transition-all duration-300 ease-out bg-white rounded-full group-hover:w-96 group-hover:h-full opacity-10"></span>

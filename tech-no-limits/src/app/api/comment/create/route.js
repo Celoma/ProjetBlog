@@ -11,7 +11,7 @@ export async function POST(request) {
             throw new Error('Invalid request body');
         }
 
-        const { comment, author, idblog } = requestBody;
+        const { comment, author, idblog} = requestBody;
 
         if (!idblog || !comment) {
             throw new Error('Missing required fields in request body');

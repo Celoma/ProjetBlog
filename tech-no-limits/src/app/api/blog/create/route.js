@@ -14,7 +14,7 @@ function generateSlug(title) {
 export async function POST(request) {
 
         const data = await request.json();
-        const { title, body, author, images, category } = data;
+        const { title, body, author, category, url } = data;
         const slug = generateSlug(title);
         const newBlog = await prisma.post.create({
             data: {
@@ -22,7 +22,8 @@ export async function POST(request) {
                 body: body,
                 slug: slug,
                 authorId: author,
-                theme: category
+                theme: category,
+                images: url
             },
         });
         return new NextResponse(JSON.stringify(newBlog))

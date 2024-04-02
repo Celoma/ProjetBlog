@@ -1,7 +1,7 @@
 "use client"
 import { upload } from '@vercel/blob/client';
 import React, { FormEventHandler, useState } from 'react';
-import { uploadFile } from './upload.action';
+import { uploadFile } from '../createblog/upload.action';
 
 const Page = () => {
 
