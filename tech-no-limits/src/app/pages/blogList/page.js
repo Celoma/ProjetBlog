@@ -23,6 +23,16 @@ export default function Page() {
         fetchData();
     }, []);
 
+    useEffect(() => {
+        // Vérifiez si le thème est présent dans les paramètres de l'URL
+        const { theme } = query;
+        if (theme) {
+            // Filtrer les articles par thème
+            const filteredBlog = allBlog.filter(post => post.theme === theme);
+            setAllBlog(filteredBlog);
+        }
+    }, [query]);
+    
     const startIndex = (currentPage - 1) * 9;
     const endIndex = Math.min(startIndex + 9, allBlog.length);
 
