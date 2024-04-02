@@ -21,7 +21,7 @@ model Post {
   authorId String?    @db.ObjectId
   theme    String
   likes    String[]   @db.ObjectId
-  images   String
+  images   String?
 }
 
 
