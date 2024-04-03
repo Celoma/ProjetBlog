@@ -29,6 +29,12 @@ const page = ({ params }) => {
 
     const author = allUsers.find(user => user.id === idauthor);
 
+    if (status === 'loading') {
+        return (<div className='h-screen bg-custom-trans-gray'>
+                    <p className='text-center font-semibold  text-lg'>Chargement en cours...</p>
+                </div>
+        )
+    }
     return (
         <main>
             <section className="bg-cover bg-center py-[50px] flex items-center justify-center" style={{ backgroundImage: 'url("/images/authorbg.png")' }}>
