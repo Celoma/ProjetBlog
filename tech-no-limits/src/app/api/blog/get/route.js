@@ -9,6 +9,7 @@ export async function GET() {
                 id: 'desc'
               },
           });
+
         return new NextResponse(JSON.stringify(blogResponse))
     } catch (error) {
         return new NextResponse(error)

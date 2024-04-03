@@ -4,14 +4,15 @@ import { prisma } from "@/db/prisma";
 export async function GET() {
     try {
       const blogResponse = await prisma.post.findMany({
-        take: 3,
         orderBy:
           {
-            likes: 'desc'
+            likes: "asc"
           },
       });
+      blogResponse.sort((a, b) => b.likes.length - a.likes.length);
 
-      return new NextResponse(JSON.stringify(blogResponse));
+      const topThreePosts = blogResponse.slice(0, 3);
+      return new NextResponse(JSON.stringify(topThreePosts));
     } catch (error) {
       return new NextResponse(error);
     }

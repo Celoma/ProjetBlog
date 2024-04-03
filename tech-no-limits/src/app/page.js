@@ -29,6 +29,7 @@ export default function home() {
     const fetchData = async () => {
       try {
         const blogResponse = await axios.get('/api/blog/sortedByLikes');
+        console.log(blogResponse.data)
         setAllBlog(blogResponse.data)
       } catch (error) {
         console.error('Error fetching data:', error);
