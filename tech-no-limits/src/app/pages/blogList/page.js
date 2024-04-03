@@ -100,8 +100,11 @@ export default function Page() {
                 <div className="grid grid-cols-3 gap-16 mb-8 mt-16 px-[140PX]">
                     {filteredArticles.slice(startIndex, endIndex).map((Post, index) => (
                         <React.Fragment key={index}>
-                            <a href={`/pages/blog/${Post.id}`} className='cursor-pointer hover:bg-[#D9D9D9] flex flex-col p-4 bg-white rounded'>
-                                <img className="max-h-64 w-auto rounded" src="/images/defaultblog.jpg" alt="" />
+                            <a href={`/pages/blog/${Post.id}`} className='cursor-pointer hover:bg-[#D9D9D9] flex flex-col p-4 bg-white rounded'>                                        
+                                <img 
+                                    src={(Post.images && !Post.images.startsWith("https://bzimuqucq3omfllk.public.blob.vercel-storage.com/undefined-")) ? Post.images : '/images/defaultblog.jpg'} 
+                                     className='max-h-64 w-auto rounded' 
+                                />
                                 <p className='text-sm ml-2 w-min text-white bg-custom-blue p-1 rounded-md mt-4 mb-2'>{Post.theme}</p>
                                 <h1 className='ml-2 font-bold text-3xl truncate mb-2'>{Post.title}</h1>
                                 {allUsers && allUsers.find(user => user.id === Post.authorId) && (
