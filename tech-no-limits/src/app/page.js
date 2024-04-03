@@ -1,84 +1,12 @@
 "use client"
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import {useRouter} from "next/navigation"
 import {signIn, signOut, useSession} from "next-auth/react"
+import { signinClick, loginClick, signinClose, loginClose } from "@/components/Header";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import axios from 'axios';
 
 
-const createUser = async (username, email, sex, password) => {
-    const response = await axios.post('/api/users/register', {
-      username,
-      email,
-      sex,
-      password,
-    });
-    console.log(response);
-    const dataSignIn = {email, password}
-    signIn('credentials',{
-      ...dataSignIn,
-      redirect:false,
-  }).then(authenticated => {
-    if(authenticated.status == 200){
-      console.log("La connexion au nouveau compte est un succès !")
-    }
-  }).catch((error) => {
-    console.log("Erreur e-mail our mot de passe incorrect")
-  })
-};
-
-export { createUser };
-
-function loginClick(event) {
-  const loginElement = document.getElementById("login")
-  const signinElement = document.getElementById("signin");
-  document.documentElement.style.overflow = 'hidden';
-  if (signinElement) {
-    document.documentElement.style.overflow = 'hidden';
-      signinElement.classList.add("hidden");
-  }
-  if (loginElement) {
-    loginElement.classList.remove("hidden");
-  }
-}
-
-export {loginClick};
-
-function loginClose(event) {
-  const loginElement = document.getElementById("login");
-  if (loginElement) {
-    loginElement.classList.add("hidden");
-    document.documentElement.style.overflow = 'visible';
-  }
-}
-
-export {loginClose};
-
-function signinClick(event) {
-  const loginElement = document.getElementById("login")
-  const signinElement = document.getElementById("signin");
-  document.documentElement.style.overflow = 'hidden';
-  if (loginElement) {
-    loginElement.classList.add("hidden");
-    document.documentElement.style.overflow = 'hidden';
-  }
-  if (signinElement) {
-    signinElement.classList.remove("hidden");
-  }
-}
-
-export {signinClick};
-
-function signinClose(event) {
-  const signinElement = document.getElementById("signin");
-  if (signinElement) {
-    signinElement.classList.add("hidden");
-    document.documentElement.style.overflow = 'visible';
-  }
-}
-
-export {signinClose};
-
-const Header = () => {
+export default function home() {
   const { data: session, status } = useSession();
   let connected = false;
 
@@ -115,7 +43,6 @@ const Header = () => {
     }
   };
 
-  
   useEffect(() => {
     const addEvent = (element, type, listener) => {
         if (element.addEventListener)
@@ -173,54 +100,28 @@ const loginUser = async (e) => {
     console.log("Erreur e-mail our mot de passe incorrect")
   })
 }
-  if (status === 'loading') {
-    return(
-    <header className='select-none'>
-      <div className="bg-custom-purple flex items-center justify-between h-15">
-        <div>
-            <a href="/" className="text-slate-100 mr-2 ml-5 font-semibold hover:text-gray-400">ACCUEIL</a>
-            <a href="/pages/blogList" className="text-slate-100 mx-2 font-semibold hover:text-gray-400">ACTUS</a>
-            <a href="/pages/categories" className="text-slate-100 mx-2 font-semibold hover:text-gray-400">CATEGORIES</a>
-        </div>
-        <img src="/images/logo2.png" alt="Logo" className="h-15 w-auto absolute left-2/4 -translate-x-2/4"/>
-        <div className='flex items-center'>
-          <p className="text-slate-200 text-right mr-6 ml-5 font-bold text-xl hover:text-gray-200">Chargement en cours...</p>
-        </div>
-      </div>
-    </header>);
-  }
 
   return (
-    <header className='select-none'>
-      <div className="bg-custom-purple flex items-center justify-between h-15">
-        <div>
-          <a href="/" className="text-slate-100 mr-2 ml-5 font-semibold hover:text-gray-400">ACCUEIL</a>
-          <a href="/pages/blogList" className="text-slate-100 mx-2 font-semibold hover:text-gray-400">ACTUS</a>
-          <a href="/pages/categories" className="text-slate-100 mx-2 font-semibold hover:text-gray-400">CATEGORIES</a> 
-        </div>
-        <img src="/images/logo2.png" alt="Logo" className="h-15 w-auto absolute left-2/4 -translate-x-2/4"/>
-        {connected ? (
-        <>
-        <div className='flex items-center'>
-          <a href='/pages/profile' className="text-slate-200 text-right mr-2 ml-5 font-bold text-xl hover:text-slate-400">{session.user.username}</a>
-          <button onClick={signOut} className="btn relative inline-flex items-center justify-start overflow-hidden transition-all bg-custom-orange rounded hover:bg-custom-orange group mr-5 ml-2 p-2 font-semibold">
-              <span className="w-0 h-0 rounded bg-custom-brown absolute top-0 left-0 ease-out duration-500 transition-all group-hover:w-full group-hover:h-full -z-1"></span>
-              <span className="w-full text-black transition-colors duration-300 ease-in-out group-hover:text-white z-10">
-                Déconnexion
-              </span>
-          </button>
-        </div>
-        </>) : (<>        <div>
-          
-          <button onClick={loginClick} className="text-slate-100 mr-2 font-semibold hover:text-gray-400">Connexion</button>
-          <button onClick={signinClick} className="btn relative inline-flex items-center justify-start overflow-hidden transition-all bg-custom-orange rounded hover:bg-custom-orange group mr-5 ml-2 p-2 font-semibold">
-            <span className="w-0 h-0 rounded bg-custom-brown absolute top-0 left-0 ease-out duration-500 transition-all group-hover:w-full group-hover:h-full -z-1"></span>
-            <span className="w-full text-black transition-colors duration-300 ease-in-out group-hover:text-white z-10">
-              Inscription
+    <main>
+      <div className='bg-custom-gray w-full h-full'>
+        <div className='flex justify-between items-center'>
+          <div className='flex flex-col ml-14 pt-28'>
+            <h1 className='text-custom-purple font-semibold text-6xl text-center max-w-[500px]'>Tu as envie de partager une actualité ?</h1>
+            { connected ? (<><a href='../pages/createblog' className="relative inline-flex items-center justify-center overflow-hidden transition duration-300 ease-out rounded-full shadow-md group text-slate-100 bg-custom-purple p-8 m-14 text-3xl font-semibold border-solid border-2 border-custom-purple">
+            <span className="absolute inset-0 flex items-center justify-center w-full h-full text-white duration-300 -translate-x-full bg-custom-orange group-hover:translate-x-0 ease">
+            <svg className="w-6 h-6 stroke-custom-purple" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="4" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
             </span>
+            <span className="absolute flex items-center justify-center w-full h-full text-white transition-all duration-300 transform group-hover:translate-x-full ease">Je partage mon article</span>
+            <span className="relative invisible">Je partage mon article</span>
+          </a></>):(
+            <><button onClick={loginClick} className="relative inline-flex items-center justify-center overflow-hidden transition duration-300 ease-out rounded-full shadow-md group text-slate-100 bg-custom-purple p-8 m-14 text-3xl font-semibold border-solid border-2 border-custom-purple">
+            <span className="absolute inset-0 flex items-center justify-center w-full h-full text-white duration-300 -translate-x-full bg-custom-orange group-hover:translate-x-0 ease">
+            <svg className="w-6 h-6 stroke-custom-purple" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="4" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+            </span>
+            <span className="absolute flex items-center justify-center w-full h-full text-white transition-all duration-300 transform group-hover:translate-x-full ease">Je partage mon article</span>
+            <span className="relative invisible">Je partage mon article</span>
           </button>
-      </div>
-      <div id='signin' className='hidden backdrop-filter backdrop-blur-md fixed w-full h-full z-20 top-0'>
+          <div id='signin' className='hidden backdrop-filter backdrop-blur-md fixed w-full h-full z-20 top-0'>
         <div className="p-10 border-2 flex items-center justify-between text-white bg-custom-purple w-auto absolute left-2/4 -translate-x-2/4 top-2/4 -translate-y-2/4 rounded-2xl overflow-hidden">
           <section className='text-center'>
             <h1 className='text-3xl mt-4'>Inscription</h1>
@@ -354,13 +255,13 @@ const loginUser = async (e) => {
 
           </section>
         </div>
-      </div></>)}
-
-
       </div>
-
-    </header>
+            </>)}
+          </div>
+          <img src="/images/createblog.png" alt="" className='max-w-[725px]'/>
+        </div>
+      </div>
+    </main>
   );
-};
+}
 
-export default Header;

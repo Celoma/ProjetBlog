@@ -22,6 +22,6 @@
       "&/*": ["./public/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/api/users/register/route.js", "src/app/api/auth/[...nextauth]/route.js", "src/app/pages/profile/page.js", "src/app/layout.tsx", "src/app/pages/createblog/page.js", "src/app/pages/blogList/page.js", "src/app/pages/blog/[idblog]/page.js", "src/app/pages/author/[idauthor]/page.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/api/users/register/route.js", "src/app/api/auth/[...nextauth]/route.js", "src/app/pages/profile/page.js", "src/app/layout.tsx", "src/app/pages/createblog/page.js", "src/app/pages/blogList/page.js", "src/app/pages/blog/[idblog]/page.js", "src/app/pages/author/[idauthor]/page.js", "src/app/page.js"],
   "exclude": ["node_modules"]
 }
