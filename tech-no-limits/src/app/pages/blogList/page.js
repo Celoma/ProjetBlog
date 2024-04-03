@@ -109,6 +109,7 @@ export default function Page() {
                             body={post.body}
                             likes={post.likes}
                             allUsers={allUsers}
+                            images={post.images}
                           />
                         </React.Fragment>
                     ))}

@@ -1,9 +1,10 @@
 import React from 'react';
 
-const Post = ({ id, theme, title, authorId, body, likes, allUsers }) => {
+const Post = ({ id, theme, title, authorId, body, likes, allUsers, images }) => {
   return (
     <a href={`/pages/blog/${id}`} className='cursor-pointer hover:bg-[#D9D9D9] flex flex-col p-4 bg-white rounded'>
-      <img className="max-h-64 w-auto rounded" src="/images/defaultblog.jpg" alt="" />
+    <img src={(images && !images.startsWith("https://bzimuqucq3omfllk.public.blob.vercel-storage.com/undefined-")) ? images : '/images/defaultblog.jpg'} 
+      className='max-w-[800px] max-h-[255px] rounded'/>
       <p className='text-sm ml-2 w-min text-white bg-custom-blue p-1 rounded-md mt-4 mb-2'>{theme}</p>
       <h1 className='ml-2 font-bold text-3xl truncate mb-2'>{title}</h1>
       {allUsers && allUsers.find(user => user.id === authorId) && (

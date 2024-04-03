@@ -125,6 +125,7 @@ if (status === 'loading') {
                             body={post.body}
                             likes={post.likes}
                             allUsers={allUsers}
+                            images={post.images}
                           />
                         </React.Fragment>
                     ))}
