@@ -1,23 +1,19 @@
-export async function POST(request) {
+import { NextResponse } from "next/server";
+import { prisma } from "@/db/prisma";
+
+export async function GET() {
     try {
-      const blogResponse = await prisma.blog.findMany({
-        orderBy: {
-          likes: {
-            count: 'desc',
-          },
-        },
+      const blogResponse = await prisma.post.findMany({
         take: 3,
+        orderBy:
+          {
+            likes: 'desc'
+          },
       });
-  
-      const sortedBlog = blogResponse.data.sort((a, b) => b.likes - a.likes);
-  
-      return new NextResponse(JSON.stringify(sortedBlog));
+
+      return new NextResponse(JSON.stringify(blogResponse));
     } catch (error) {
-      console.error('Error fetching sorted posts:', error);
-      return new NextResponse(JSON.stringify({ error: 'Internal server error' }), {
-        status: 500,
-        headers: { 'Content-Type': 'application/json' }
-      });
+      return new NextResponse(error);
     }
   }
   

@@ -1,32 +1,34 @@
 "use client"
 import {signIn, signOut, useSession} from "next-auth/react"
 import { signinClick, loginClick, signinClose, loginClose } from "@/components/Header";
-import { useEffect, useState } from "react";
+import React, { useState, useEffect } from 'react';
 import { useRouter } from "next/navigation";
+import axios from "axios";
 
 export default function home() {
   const { data: session, status } = useSession();
-  const [currentPage, setCurrentPage] = useState(1);
   const [allBlog, setAllBlog] = useState([]);
   const [allUsers, setAllUsers] = useState([]);
 
-  let connected = false;
+  let connected = status === "authenticated"
+  
+  useEffect(() => {
+    const fetchData = async () => {
+        try {
+            const userResponse = await axios.get('/api/users/get');
+            setAllUsers(userResponse.data);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
 
-  if (status === "authenticated") {
-      connected = true;
-  }
-  let [selectedOption, setSelectedOption] = useState(null);
-
-  const handleOptionChange = (event) => {
-    setSelectedOption(event.target.value);
-  };
-
+    fetchData();
+}, []);
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const blogResponse = await axios.get('/api/blog');
-        const sortedBlog = blogResponse.data.sort((a, b) => b.likes - a.likes);
-        setAllBlog(sortedBlog);
+        const blogResponse = await axios.get('/api/blog/sortedByLikes');
+        setAllBlog(blogResponse.data)
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -34,39 +36,6 @@ export default function home() {
   
     fetchData();
   }, []);
-
-  const startIndex = (currentPage - 1) * 6;
-  const endIndex = Math.min(startIndex + 6, allBlog.length);
-
-  const changePage = (page) => {
-      setCurrentPage(page);
-      window.scrollTo({
-          top: 0,
-          behavior: 'smooth'
-      });
-  };
-
-  const handleRegister = async (e) => {
-    e.preventDefault();
-    const username = document.getElementById("username").value;
-    const email = document.getElementById("mailreg").value;
-    const password = document.getElementById("passwordreg").value;
-    const confirmPassword = document.getElementById("confirm-password").value;
-    if (password !== confirmPassword) {
-      return;
-    }
-    signinClose()
-    try {
-      const newUser = await createUser(username, email, selectedOption, password);
-      document.getElementById("username").value = "";
-      document.getElementById("mailreg").value = "";
-      document.getElementById("passwordreg").value = "";
-      document.getElementById("confirm-password").value = "";
-      selectedOption = null;
-    } catch (error) {
-      console.error('Erreur lors de la création de l\'utilisateur :', error);
-    }
-  };
 
   useEffect(() => {
     const addEvent = (element, type, listener) => {
@@ -107,24 +76,7 @@ export default function home() {
 
 
 const router = useRouter()
-const [datalog,setData] = useState({
-    email:'',
-    password:''
-})
 
-const loginUser = async (e) => {
-  e.preventDefault()
-  signIn('credentials',{
-      ...datalog,
-      redirect:false,
-  }).then(authenticated => {
-    if(authenticated.status == 200){
-      loginClose()
-    }
-  }).catch((error) => {
-    console.log("Erreur e-mail our mot de passe incorrect")
-  })
-}
 
   return (
     <main>
@@ -157,7 +109,7 @@ const loginUser = async (e) => {
                     <h1 className='ml-[140px] font-bold text-3xl'>Les articles les plus aimé</h1>
                 </div>
                 <div className="grid grid-cols-3 gap-16 mb-8 mt-16 px-[140PX]">
-                    {allBlog.slice(startIndex, endIndex).map((Post, index) => (
+                    {allBlog.map((Post, index) => (
                         <React.Fragment key={index}>
                             <a href={`/pages/blog/${Post.id}`} className='cursor-pointer hover:bg-[#D9D9D9] flex flex-col p-4 bg-white rounded'>
                                 <img className="max-h-64 w-auto rounded" src="/images/defaultblog.jpg" alt="" />
@@ -170,21 +122,6 @@ const loginUser = async (e) => {
                             </a>
                         </React.Fragment>
                     ))}
-                </div>
-                <div className='flex justify-center'>
-                    <button className='hover:text-slate-100 hover:bg-custom-purple mx-4 my-3 flex p-4 items-center text-custom-puple border-solid border-[1px] border-custom-purple rounded-lg' onClick={() => changePage(currentPage - 1)} disabled={currentPage === 1}>
-                        <svg className="mr-2" width="19" height="8" viewBox="0 0 19 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M0.574229 3.35372C0.378967 3.54898 0.378967 3.86557 0.574229 4.06083L3.75621 7.24281C3.95147 7.43807 4.26805 7.43807 4.46332 7.24281C4.65858 7.04755 4.65858 6.73096 4.46332 6.5357L1.63489 3.70727L4.46332 0.878847C4.65858 0.683585 4.65858 0.367002 4.46332 0.17174C4.26805 -0.0235219 3.95147 -0.023522 3.75621 0.17174L0.574229 3.35372ZM18.9766 3.20728L0.927782 3.20727L0.927782 4.20727L18.9766 4.20728L18.9766 3.20728Z" className='fill-current'/>
-                        </svg>
-                        <p>Prev.</p>
-                    </button>
-                    <p className='hover:text-slate-100 hover:bg-custom-purple mx-4 my-3 p-4 items-center text-custom-puple border-solid border-[1px] border-custom-purple rounded-lg'>{currentPage}</p>
-                    <button className='hover:text-slate-100 hover:bg-custom-purple mx-4 my-3 flex p-4 items-center text-custom-puple border-solid border-[1px] border-custom-purple rounded-lg' onClick={() => changePage(currentPage + 1)} disabled={endIndex >= allBlog.length}>
-                        <p>Suiv.</p>
-                        <svg className="ml-2" width="20" height="8" viewBox="0 0 20 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M19.3291 4.06083C19.5244 3.86556 19.5244 3.54898 19.3291 3.35372L16.1471 0.171739C15.9518 -0.0235233 15.6353 -0.0235233 15.44 0.171739C15.2447 0.367001 15.2447 0.683584 15.44 0.878846L18.2684 3.70727L15.44 6.5357C15.2447 6.73096 15.2447 7.04754 15.44 7.24281C15.6353 7.43807 15.9518 7.43807 16.1471 7.24281L19.3291 4.06083ZM0.926758 4.20728L18.9755 4.20727L18.9755 3.20727L0.926758 3.20728L0.926758 4.20728Z" className='fill-current'/>
-                        </svg>
-                    </button>
                 </div>
             </div>
       </section>
