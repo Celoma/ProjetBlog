@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useSession } from 'next-auth/react';
-
+import { useRouter } from 'next/navigation';
 const Page = ({ params }) => {
     const { idblog } = params;
     const [allBlog, setAllBlog] = useState([]);
@@ -67,6 +67,15 @@ const Page = ({ params }) => {
             console.error('Error creating comment:', error);
         }
     };
+
+    const handleDeletePost = async (postId) => {
+        try {
+            const response = await axios.post('/api/blog/delete', {postId});
+            window.location.href = '/';
+        } catch (error) {
+            alert(`Une erreur s'est produite lors de la suppression du commentaire ${postId}.`);
+        }
+    }
 
     const handleLike = async (e) => {
         e.preventDefault();
@@ -136,8 +145,20 @@ const Page = ({ params }) => {
                         <span>{nblikes}</span>
                     </button>
                     </>
-
-                    }
+                    }{blog?.authorId === session?.user?.id || session?.user?.permission === 'admin' ? (
+                        <>
+                        <button onClick={() => handleDeletePost(blog.id)} className="mt-4 p-2 bg-slate-500 hover:bg-slate-600 rounded">
+                            <span className='hover:text-[#FE1616]'>
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M5 11H19V15C19 16.8856 19 17.8284 18.4142 18.4142C17.8284 19 16.8856 19 15 19H9C7.11438 19 6.17157 19 5.58579 18.4142C5 17.8284 5 16.8856 5 15V11Z" fill="#222222"/>
+                                    <path d="M2.8153 7.8153L5 10L9 6L6.58869 4.39246C6.23591 4.15728 5.77317 4.17012 5.43399 4.42451L2.92241 6.30819C2.43557 6.67332 2.38499 7.38499 2.8153 7.8153Z" fill="#222222"/>
+                                    <path d="M21.1847 7.8153L19 10L15 6L17.4113 4.39246C17.7641 4.15728 18.2268 4.17012 18.566 4.42451L21.0776 6.30819C21.5644 6.67332 21.615 7.38499 21.1847 7.8153Z" fill="#222222"/>
+                                    <path d="M18 10V11H6V10L9 7H15L18 10Z" stroke="#222222" strokeWidth="2" strokeLinecap="round"/>
+                                </svg>
+                            </span>
+                            <p>Supprimer</p>
+                        </button>
+                        </>):(<></>)}
 
                 </div>
                 <aside className='pl-5'>

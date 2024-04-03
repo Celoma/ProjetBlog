@@ -2,7 +2,7 @@ const Footer = () => {
     return (
         <footer className="h-footer bg-custom-purple ">
             <div className="flex place-content-between">
-                <a href="/">
+                <a href="/pages/about">
                   <img src="/images/logo1.png" alt="Logo de l'entreprise" className="mt-4 h-90"/>
                 </a>
                 <div className="mt-28">

@@ -198,7 +198,7 @@ const loginUser = async (e) => {
           <a href="/pages/blogList" className="text-slate-100 mx-2 font-semibold hover:text-gray-400">ACTUS</a>
           <a href="/pages/categories" className="text-slate-100 mx-2 font-semibold hover:text-gray-400">CATEGORIES</a> 
         </div>
-        <a href="/" className=' absolute left-2/4 -translate-x-2/4'>
+        <a href="/pages/about" className=' absolute left-2/4 -translate-x-2/4'>
           <img src="/images/logo2.png" alt="Logo" className="h-15 w-auto"/>
         </a>
         {connected ? ( 
@@ -235,8 +235,8 @@ const loginUser = async (e) => {
                 <label htmlFor="username" className="cursor-text transform transition-all absolute top-0 left-0 h-full flex items-center pl-2 text-sm group-focus-within:text-xs peer-valid:text-xs group-focus-within:h-1/2 peer-valid:h-1/2 group-focus-within:-translate-y-full peer-valid:-translate-y-full group-focus-within:pl-0 peer-valid:pl-0">Nom d'utilisateur</label>
               </div>
               <div className="w-64 relative group cursor-text mt-6 ml-4">
-                <input type="email" id="mailreg" required className="w-full h-10 px-4 text-sm peer bg-custom-purple outline-none border-b-2 border-custom-orange" />
-                <label htmlFor="email" className="cursor-text transform transition-all absolute top-0 left-0 h-full flex items-center pl-2 text-sm group-focus-within:text-xs peer-valid:text-xs group-focus-within:h-1/2 peer-valid:h-1/2 group-focus-within:-translate-y-full peer-valid:-translate-y-full group-focus-within:pl-0 peer-valid:pl-0">E-mail</label>
+                <input type="text" id="mailreg" required className="w-full h-10 px-4 text-sm peer bg-custom-purple outline-none border-b-2 border-custom-orange" />
+                <label htmlFor="text" className="cursor-text transform transition-all absolute top-0 left-0 h-full flex items-center pl-2 text-sm group-focus-within:text-xs peer-valid:text-xs group-focus-within:h-1/2 peer-valid:h-1/2 group-focus-within:-translate-y-full peer-valid:-translate-y-full group-focus-within:pl-0 peer-valid:pl-0">E-mail</label>
               </div>
               <div className='flex items-center justify-between px-2 mt-6 ml-4 w-64'>
                 <p className="mr-2">Sexe :</p>
