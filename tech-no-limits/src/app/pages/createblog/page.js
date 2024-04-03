@@ -52,6 +52,11 @@ const Page = () => {
         setData({ ...data, images: files });
     };
 
+    useEffect(() => {
+        if (status === "unauthenticated") {
+            window.location.href = '/';
+        }
+    }, [status, session]);
     return (
         <div className='relative'>
             <div className='bg-custom-trans-gray rounded-xl max-w-[1100px] py-[1px] mx-auto p-6 my-10 z-10 backdrop-blur-[3px]'>

@@ -28,6 +28,55 @@ const createUser = async (username, email, sex, password) => {
 
 export { createUser };
 
+function loginClick(event) {
+  const loginElement = document.getElementById("login")
+  const signinElement = document.getElementById("signin");
+  document.documentElement.style.overflow = 'hidden';
+  if (signinElement) {
+    document.documentElement.style.overflow = 'hidden';
+      signinElement.classList.add("hidden");
+  }
+  if (loginElement) {
+    loginElement.classList.remove("hidden");
+  }
+}
+
+export {loginClick};
+
+function loginClose(event) {
+  const loginElement = document.getElementById("login");
+  if (loginElement) {
+    loginElement.classList.add("hidden");
+    document.documentElement.style.overflow = 'visible';
+  }
+}
+
+export {loginClose};
+
+function signinClick(event) {
+  const loginElement = document.getElementById("login")
+  const signinElement = document.getElementById("signin");
+  document.documentElement.style.overflow = 'hidden';
+  if (loginElement) {
+    loginElement.classList.add("hidden");
+    document.documentElement.style.overflow = 'hidden';
+  }
+  if (signinElement) {
+    signinElement.classList.remove("hidden");
+  }
+}
+
+export {signinClick};
+
+function signinClose(event) {
+  const signinElement = document.getElementById("signin");
+  if (signinElement) {
+    signinElement.classList.add("hidden");
+    document.documentElement.style.overflow = 'visible';
+  }
+}
+
+export {signinClose};
 
 const Header = () => {
   const { data: session, status } = useSession();
@@ -42,47 +91,7 @@ const Header = () => {
     setSelectedOption(event.target.value);
   };
 
-  function loginClick(event) {
-    const loginElement = document.getElementById("login")
-    const signinElement = document.getElementById("signin");
-    document.documentElement.style.overflow = 'hidden';
-    if (signinElement) {
-      document.documentElement.style.overflow = 'hidden';
-        signinElement.classList.add("hidden");
-    }
-    if (loginElement) {
-      loginElement.classList.remove("hidden");
-    }
-  }
 
-  function loginClose(event) {
-    const loginElement = document.getElementById("login");
-    if (loginElement) {
-      loginElement.classList.add("hidden");
-      document.documentElement.style.overflow = 'visible';
-    }
-  }
-
-  function signinClick(event) {
-    const loginElement = document.getElementById("login")
-    const signinElement = document.getElementById("signin");
-    document.documentElement.style.overflow = 'hidden';
-    if (loginElement) {
-      loginElement.classList.add("hidden");
-      document.documentElement.style.overflow = 'hidden';
-    }
-    if (signinElement) {
-      signinElement.classList.remove("hidden");
-    }
-  }
-
-  function signinClose(event) {
-    const signinElement = document.getElementById("signin");
-    if (signinElement) {
-      signinElement.classList.add("hidden");
-      document.documentElement.style.overflow = 'visible';
-    }
-  }
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -106,7 +115,7 @@ const Header = () => {
     }
   };
 
-
+  
   useEffect(() => {
     const addEvent = (element, type, listener) => {
         if (element.addEventListener)
@@ -189,10 +198,15 @@ const loginUser = async (e) => {
           <a href="/pages/blogList" className="text-slate-100 mx-2 font-semibold hover:text-gray-400">ACTUS</a>
           <a href="/pages/categories" className="text-slate-100 mx-2 font-semibold hover:text-gray-400">CATEGORIES</a> 
         </div>
-        <img src="/images/logo2.png" alt="Logo" className="h-15 w-auto absolute left-2/4 -translate-x-2/4"/>
-        {connected ? (
+        <a href="/" className=' absolute left-2/4 -translate-x-2/4'>
+          <img src="/images/logo2.png" alt="Logo" className="h-15 w-auto"/>
+        </a>
+        {connected ? ( 
         <>
         <div className='flex items-center'>
+          {session.user.permission === "admin" && ( // Vérifiez la permission de l'utilisateur
+            <a href='/pages/admin' className="text-slate-200 text-right mr-2 ml-5 font-bold text-xl hover:text-slate-400">Admin Panel</a>
+          )}
           <a href='/pages/profile' className="text-slate-200 text-right mr-2 ml-5 font-bold text-xl hover:text-slate-400">{session.user.username}</a>
           <button onClick={signOut} className="btn relative inline-flex items-center justify-start overflow-hidden transition-all bg-custom-orange rounded hover:bg-custom-orange group mr-5 ml-2 p-2 font-semibold">
               <span className="w-0 h-0 rounded bg-custom-brown absolute top-0 left-0 ease-out duration-500 transition-all group-hover:w-full group-hover:h-full -z-1"></span>
@@ -221,7 +235,7 @@ const loginUser = async (e) => {
                 <label htmlFor="username" className="cursor-text transform transition-all absolute top-0 left-0 h-full flex items-center pl-2 text-sm group-focus-within:text-xs peer-valid:text-xs group-focus-within:h-1/2 peer-valid:h-1/2 group-focus-within:-translate-y-full peer-valid:-translate-y-full group-focus-within:pl-0 peer-valid:pl-0">Nom d'utilisateur</label>
               </div>
               <div className="w-64 relative group cursor-text mt-6 ml-4">
-                <input type="text" id="mailreg" required className="w-full h-10 px-4 text-sm peer bg-custom-purple outline-none border-b-2 border-custom-orange" />
+                <input type="email" id="mailreg" required className="w-full h-10 px-4 text-sm peer bg-custom-purple outline-none border-b-2 border-custom-orange" />
                 <label htmlFor="mailreg" className="cursor-text transform transition-all absolute top-0 left-0 h-full flex items-center pl-2 text-sm group-focus-within:text-xs peer-valid:text-xs group-focus-within:h-1/2 peer-valid:h-1/2 group-focus-within:-translate-y-full peer-valid:-translate-y-full group-focus-within:pl-0 peer-valid:pl-0">E-mail</label>
               </div>
               <div className='flex items-center justify-between px-2 mt-6 ml-4 w-64'>
