@@ -44,6 +44,20 @@ const Page = () => {
         }
     };
 
+    const handleUpgradeUser = async (userId, username) => {
+        const confirmation = window.confirm(`Voulez-vous vraiment passer définitivement l'utilisateur ${username} en temps qu'administratuer ?`)
+        if (confirmation) {
+            try {
+                const response = await axios.post('/api/users/upgrade', {userId});
+                console.log(response.data);
+                alert(`L'utilisateur ${username} a été passé administrateur avec succès.`);
+            } catch (error) {
+                console.error('Error upgrading user:', error);
+                alert(`Une erreur s'est produite lors de l'upgrade de l'utilisateur ${username}.`);
+            }
+        }
+    }
+
 
     return (
         <div className="m-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -60,6 +74,14 @@ const Page = () => {
                                 <path d="M2.8153 7.8153L5 10L9 6L6.58869 4.39246C6.23591 4.15728 5.77317 4.17012 5.43399 4.42451L2.92241 6.30819C2.43557 6.67332 2.38499 7.38499 2.8153 7.8153Z" className='fill-current'/>
                                 <path d="M21.1847 7.8153L19 10L15 6L17.4113 4.39246C17.7641 4.15728 18.2268 4.17012 18.566 4.42451L21.0776 6.30819C21.5644 6.67332 21.615 7.38499 21.1847 7.8153Z" className='fill-current'/>
                                 <path d="M18 10V11H6V10L9 7H15L18 10Z" className='stroke-current' strokeWidth="2" strokeLinecap="round"/>
+                            </svg>
+                        </span>
+                    </button>
+                    <button onClick={() => handleUpgradeUser(user.id, user.username)}>
+                        <span className='hover:text-custom-blue'>
+                            <svg width="39" height="42" viewBox="0 0 39 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M29.25 30.8311L19.5 20.5541L9.75 30.8311" className='stroke-current' strokeWidth="2"/>
+                                <path d="M29.25 20.554L19.5 10.277L9.75 20.554" className='stroke-current' strokeWidth="2"/>
                             </svg>
                         </span>
                     </button>
