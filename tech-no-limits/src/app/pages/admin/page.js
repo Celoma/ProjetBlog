@@ -27,15 +27,13 @@ const Page = () => {
         fetchData();
     }, []);
 
-    // Côté client - fonction de suppression de l'utilisateur
     const handleDeleteUser = async (userId, username) => {
         const confirmation = window.confirm(`Voulez-vous vraiment supprimer définitivement l'utilisateur ${username} ? Cette action est définitive et l'utilisateur ainsi que tous ses posts et commentaires seront supprimés.`);
         if (confirmation) {
             try {
-                // Supprimer l'utilisateur avec l'ID userId
-                const response = await axios.delete(`/api/users/delete/${userId}`);
-                console.log(response.data); // Affiche la réponse du serveur après la suppression
-                // Mettre à jour la liste des utilisateurs après la suppression
+                const response = await axios.post('/api/users/delete', {userId});
+                console.log(response.data);
+
                 const updatedUsers = allUsers.filter(user => user.id !== userId);
                 setAllUsers(updatedUsers);
                 alert(`L'utilisateur ${username} a été supprimé avec succès.`);
