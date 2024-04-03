@@ -4,6 +4,7 @@ import { signinClick, loginClick, signinClose, loginClose } from "@/components/H
 import React, { useState, useEffect } from 'react';
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import Post from '@/components/Post'
 
 export default function home() {
   const { data: session, status } = useSession();
@@ -77,7 +78,12 @@ export default function home() {
 
 const router = useRouter()
 
-
+if (status === 'loading') {
+  return (<div className='h-screen bg-custom-trans-gray'>
+              <p className='text-center font-semibold  text-lg'>Chargement en cours...</p>
+          </div>
+  )
+}
   return (
     <main>
       <div className='bg-custom-gray w-full h-full'>
@@ -109,17 +115,17 @@ const router = useRouter()
                     <h1 className='ml-[140px] font-bold text-3xl'>Les articles les plus aimé</h1>
                 </div>
                 <div className="grid grid-cols-3 gap-16 mb-8 mt-16 px-[140PX]">
-                    {allBlog.map((Post, index) => (
+                    {allBlog.map((post, index) => (
                         <React.Fragment key={index}>
-                            <a href={`/pages/blog/${Post.id}`} className='cursor-pointer hover:bg-[#D9D9D9] flex flex-col p-4 bg-white rounded'>
-                                <img className="max-h-64 w-auto rounded" src="/images/defaultblog.jpg" alt="" />
-                                <p className='text-sm ml-2 w-min text-white bg-custom-blue p-0.5 rounded-md mt-4 mb-2'>{Post.theme}</p>
-                                <h1 className='ml-2 font-bold text-3xl truncate mb-2'>{Post.title}</h1>
-                                {allUsers && allUsers.find(user => user.id === Post.authorId) && (
-                                    <p className='text-sm ml-2 text-[#777777] mb-2'>{allUsers.find(user => user.id === Post.authorId)?.username}</p>
-                                )}
-                                <p className='ml-2 truncate mb-2'>{Post.body}</p>
-                            </a>
+                          <Post
+                            id={post.id}
+                            theme={post.theme}
+                            title={post.title}
+                            authorId={post.authorId}
+                            body={post.body}
+                            likes={post.likes}
+                            allUsers={allUsers}
+                          />
                         </React.Fragment>
                     ))}
                 </div>
