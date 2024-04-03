@@ -80,7 +80,7 @@ const Page = ({ params }) => {
     }
 
     if (status === 'loading') {
-        return (<main className='bg-slate-100 h-screen'>
+        return (<main className='h-screen'>
                     <p className='text-center font-semibold  text-lg'>Chargement en cours...</p>
                 </main>
         )
@@ -88,7 +88,7 @@ const Page = ({ params }) => {
     let isLiked = blog && blog.likes ? blog.likes.includes(data.author) : false;
 
     return (
-        <main className='bg-slate-100'>
+        <main >
             {blog && (
                 <section className='bg-custom-gray text-center py-24'>
                     <p className='bg-slate-100 rounded font-semibold left-2/4 w-min relative -translate-x-2/4 mb-10 text-lg'>{blog.theme}</p>
@@ -133,8 +133,8 @@ const Page = ({ params }) => {
                 <aside className='pl-5'>
                     <img src='/images/defaultblog.jpg' className='max-w-[800px] rounded'>
                     </img>
-                    <div className='mt-10 border-l-4 border-custom-purple rounded p-2'>
-                        <h2 className='text-4xl font-semibold'>Espace commentaire</h2>
+                    <div className='my-10 border-l-4 border-custom-purple rounded p-2'>
+                        <h2 className='text-4xl font-semibold m-2'>Espace commentaire</h2>
                     </div>
                     <div>
                         {allComment.filter(comment => comment.postId === idblog).map((comment, index) => {
@@ -142,7 +142,19 @@ const Page = ({ params }) => {
                             return (
                                 <div key={index} className="bg-white rounded p-4 mb-4">
                                     {authorComment && <p className="font-semibold">{authorComment.username}</p> }
-                                    <p>{comment.comment}</p>
+                                    <p className='mb-4'>{comment.comment}</p>
+                                    {(blog.authorId === session?.user?.id && authorComment.permission === 'user')|| session?.user?.id === authorComment.id || session?.user?.permission === 'admin' ? (
+                                    <>
+                                    <button onClick={() => handleDeleteCom(comment.id)} className="ml-2 p-2 bg-slate-500 hover:bg-slate-600 rounded">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M5 11H19V15C19 16.8856 19 17.8284 18.4142 18.4142C17.8284 19 16.8856 19 15 19H9C7.11438 19 6.17157 19 5.58579 18.4142C5 17.8284 5 16.8856 5 15V11Z" fill="#222222"/>
+                                            <path d="M2.8153 7.8153L5 10L9 6L6.58869 4.39246C6.23591 4.15728 5.77317 4.17012 5.43399 4.42451L2.92241 6.30819C2.43557 6.67332 2.38499 7.38499 2.8153 7.8153Z" fill="#222222"/>
+                                            <path d="M21.1847 7.8153L19 10L15 6L17.4113 4.39246C17.7641 4.15728 18.2268 4.17012 18.566 4.42451L21.0776 6.30819C21.5644 6.67332 21.615 7.38499 21.1847 7.8153Z" fill="#222222"/>
+                                            <path d="M18 10V11H6V10L9 7H15L18 10Z" stroke="#222222" strokeWidth="2" strokeLinecap="round"/>
+                                        </svg>
+                                        <p>Supprimer</p>
+                                    </button>
+                                    </>):(<></>)}
                                 </div>
                             );
                         })}
