@@ -113,7 +113,7 @@ if (status === 'loading') {
       <section>
           <div className='flex flex-col'>
                 <div className='flex justify-between'>
-                    <h1 className='ml-[140px] font-bold text-3xl'>Les articles les plus aimé</h1>
+                    <h1 className='ml-[140px] font-bold text-3xl'>Les articles les plus aimés</h1>
                 </div>
                 <div className="grid grid-cols-3 gap-16 mb-8 mt-16 px-[140PX]">
                     {allBlog.map((post, index) => (
