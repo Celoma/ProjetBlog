@@ -309,7 +309,7 @@ const loginUser = async (e) => {
           </section>
         </div>
       </div>
-      <div id='login' className='hidden backdrop-filter backdrop-blur-md absolute w-full h-full z-20 top-0'>
+      <div id='login' className='hidden backdrop-filter backdrop-blur-md fixed w-full h-full z-20 top-0'>
         <div className="rounded-2xl overflow-hidden p-10 border-2 flex items-center justify-between text-white bg-custom-purple h-auto w-auto absolute left-2/4 -translate-x-2/4 top-2/4 -translate-y-2/4">
           <section className='text-center'>
             <h1 className='text-3xl mt-4'>Bonjour !</h1>

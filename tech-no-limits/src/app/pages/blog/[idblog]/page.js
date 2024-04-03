@@ -43,6 +43,16 @@ const Page = ({ params }) => {
 
         fetchData();
     }, []);
+
+    const handleDeleteCom = async (comId) => {
+        try {
+            const response = await axios.post('/api/comment/delete', {comId});
+            window.location.reload()
+        } catch (error) {
+            alert(`Une erreur s'est produite lors de la suppression du commentaire ${comId}.`);
+        }
+    }
+
     const blog = allBlog.find(post => post.id === idblog);
     const author = allUsers.find(user => user.id === blog?.authorId);
     const commentBlog = allComment.find(comment => comment.postID === idblog)
@@ -52,7 +62,7 @@ const Page = ({ params }) => {
             await axios.post('/api/comment/create', { comment, ...data, idblog});
 
             setComment('');
-
+            window.location.reload()
         } catch (error) {
             console.error('Error creating comment:', error);
         }
@@ -164,7 +174,8 @@ const Page = ({ params }) => {
             <section className='bg-[#ECECEC50] flex justify-between'>
                 <div className='pl-10'>
                     <h2 className='font-semibold text-3xl mb-2 mt-2'>Donne ton avis sur l'article</h2>
-                    <h3 className='text-xl mb-2'>Bienvenue dans la zone de commentaire, restez courtois et respectueux</h3>
+                    {status === 'authenticated' ? (<>
+                        <h3 className='text-xl mb-2'>Bienvenue dans la zone de commentaire, restez courtois et respectueux</h3>
                     <form className='flex flex-col' onSubmit={handleNewComment}>
                         <textarea 
                             name="comment" // Ajoutez cet attribut
@@ -190,6 +201,9 @@ const Page = ({ params }) => {
                             </button>
                         </div>
                     </form>
+                    </>):(<>
+                        <h3 className='text-xl mb-2'>Connecte-toi pour laisser un commentaire !</h3>
+                    </>)}
                 </div>
                 <img src='/images/comment.png' className='h-[340px] mr-28'></img>
             </section>
