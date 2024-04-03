@@ -101,7 +101,7 @@ const Page = ({ params }) => {
         <main >
             {blog && (
                 <section className='bg-custom-gray text-center py-24'>
-                    <p className='bg-slate-100 rounded font-semibold left-2/4 w-min relative -translate-x-2/4 mb-10 text-lg'>{blog.theme}</p>
+                    <p className='bg-slate-100 rounded font-semibold left-2/4 w-min relative -translate-x-2/4 mb-10 text-lg p-2'>{blog.theme}</p>
                     <h1 className='text-6xl font-semibold text-center mb-10'>{blog.title}</h1>
                     {author && <p className='text-[#777777]'>Rédigé par <a href={`/pages/author/${author.id}`} className='cursor-pointer text-custom-orange font-semibold underline'>{author.username}</a>  -  Publié le </p>}
                 </section>
@@ -141,8 +141,15 @@ const Page = ({ params }) => {
 
                 </div>
                 <aside className='pl-5'>
-                    <img src='/images/defaultblog.jpg' className='max-w-[800px] rounded'>
-                    </img>
+                    {blog && (
+                        <div>
+                            <img 
+                                src={(blog.images && !blog.images.startsWith("https://bzimuqucq3omfllk.public.blob.vercel-storage.com/undefined-")) ? blog.images : '/images/defaultblog.jpg'} 
+                                className='max-w-[800px] rounded'
+                            />
+                        </div>
+                    )}
+
                     <div className='my-10 border-l-4 border-custom-purple rounded p-2'>
                         <h2 className='text-4xl font-semibold m-2'>Espace commentaire</h2>
                     </div>
