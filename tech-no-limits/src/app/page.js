@@ -1,32 +1,34 @@
 "use client"
 import {signIn, signOut, useSession} from "next-auth/react"
 import { signinClick, loginClick, signinClose, loginClose } from "@/components/Header";
-import { useEffect, useState } from "react";
+import React, { useState, useEffect } from 'react';
 import { useRouter } from "next/navigation";
+import axios from "axios";
 
 export default function home() {
   const { data: session, status } = useSession();
-  const [currentPage, setCurrentPage] = useState(1);
   const [allBlog, setAllBlog] = useState([]);
   const [allUsers, setAllUsers] = useState([]);
 
-  let connected = false;
+  let connected = status === "authenticated"
+  
+  useEffect(() => {
+    const fetchData = async () => {
+        try {
+            const userResponse = await axios.get('/api/users/get');
+            setAllUsers(userResponse.data);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
 
-  if (status === "authenticated") {
-      connected = true;
-  }
-  let [selectedOption, setSelectedOption] = useState(null);
-
-  const handleOptionChange = (event) => {
-    setSelectedOption(event.target.value);
-  };
-
+    fetchData();
+}, []);
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const blogResponse = await axios.get('/api/blog');
-        const sortedBlog = blogResponse.data.sort((a, b) => b.likes - a.likes);
-        setAllBlog(sortedBlog);
+        const blogResponse = await axios.get('/api/blog/sortedByLikes');
+        setAllBlog(blogResponse.data)
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -34,39 +36,6 @@ export default function home() {
   
     fetchData();
   }, []);
-
-  const startIndex = (currentPage - 1) * 6;
-  const endIndex = Math.min(startIndex + 6, allBlog.length);
-
-  const changePage = (page) => {
-      setCurrentPage(page);
-      window.scrollTo({
-          top: 0,
-          behavior: 'smooth'
-      });
-  };
-
-  const handleRegister = async (e) => {
-    e.preventDefault();
-    const username = document.getElementById("username").value;
-    const email = document.getElementById("mailreg").value;
-    const password = document.getElementById("passwordreg").value;
-    const confirmPassword = document.getElementById("confirm-password").value;
-    if (password !== confirmPassword) {
-      return;
-    }
-    signinClose()
-    try {
-      const newUser = await createUser(username, email, selectedOption, password);
-      document.getElementById("username").value = "";
-      document.getElementById("mailreg").value = "";
-      document.getElementById("passwordreg").value = "";
-      document.getElementById("confirm-password").value = "";
-      selectedOption = null;
-    } catch (error) {
-      console.error('Erreur lors de la création de l\'utilisateur :', error);
-    }
-  };
 
   useEffect(() => {
     const addEvent = (element, type, listener) => {
@@ -107,24 +76,7 @@ export default function home() {
 
 
 const router = useRouter()
-const [datalog,setData] = useState({
-    email:'',
-    password:''
-})
 
-const loginUser = async (e) => {
-  e.preventDefault()
-  signIn('credentials',{
-      ...datalog,
-      redirect:false,
-  }).then(authenticated => {
-    if(authenticated.status == 200){
-      loginClose()
-    }
-  }).catch((error) => {
-    console.log("Erreur e-mail our mot de passe incorrect")
-  })
-}
 
   return (
     <main>
@@ -157,7 +109,7 @@ const loginUser = async (e) => {
                     <h1 className='ml-[140px] font-bold text-3xl'>Les articles les plus aimé</h1>
                 </div>
                 <div className="grid grid-cols-3 gap-16 mb-8 mt-16 px-[140PX]">
-                    {allBlog.slice(startIndex, endIndex).map((Post, index) => (
+                    {allBlog.map((Post, index) => (
                         <React.Fragment key={index}>
                             <a href={`/pages/blog/${Post.id}`} className='cursor-pointer hover:bg-[#D9D9D9] flex flex-col p-4 bg-white rounded'>
                                 <img className="max-h-64 w-auto rounded" src="/images/defaultblog.jpg" alt="" />
