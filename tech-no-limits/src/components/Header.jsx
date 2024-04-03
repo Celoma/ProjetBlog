@@ -236,7 +236,7 @@ const loginUser = async (e) => {
               </div>
               <div className="w-64 relative group cursor-text mt-6 ml-4">
                 <input type="email" id="mailreg" required className="w-full h-10 px-4 text-sm peer bg-custom-purple outline-none border-b-2 border-custom-orange" />
-                <label htmlFor="mailreg" className="cursor-text transform transition-all absolute top-0 left-0 h-full flex items-center pl-2 text-sm group-focus-within:text-xs peer-valid:text-xs group-focus-within:h-1/2 peer-valid:h-1/2 group-focus-within:-translate-y-full peer-valid:-translate-y-full group-focus-within:pl-0 peer-valid:pl-0">E-mail</label>
+                <label htmlFor="email0" className="cursor-text transform transition-all absolute top-0 left-0 h-full flex items-center pl-2 text-sm group-focus-within:text-xs peer-valid:text-xs group-focus-within:h-1/2 peer-valid:h-1/2 group-focus-within:-translate-y-full peer-valid:-translate-y-full group-focus-within:pl-0 peer-valid:pl-0">E-mail</label>
               </div>
               <div className='flex items-center justify-between px-2 mt-6 ml-4 w-64'>
                 <p className="mr-2">Sexe :</p>
