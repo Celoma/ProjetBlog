@@ -67,7 +67,7 @@ export const authOptions = {
             session.user.id = token.id
             return session
         }
-      }
+    }
 };
 
 const handler = NextAuth(authOptions);
